@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free QR Code Generator | HandyToolsIndia</title>
-    <meta name="description" content="Create custom QR codes instantly - no registration required. Free QR code generator for URLs, text, contacts, and more. Works on all devices.">
-    <meta name="keywords" content="qr code generator, free qr code, create qr code, qr code maker, qr code online">
+    <title>Free QR Code Generator with Tracking | HandyToolsIndia</title>
+    <meta name="description" content="Create trackable QR codes instantly. Monitor scans in real-time with our free QR code generator. No registration required.">
+    <meta name="keywords" content="qr code generator, trackable qr code, free qr code, qr analytics, qr code scanner">
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -13,42 +13,42 @@
         "mainEntity": [
             {
                 "@type": "Question",
-                "name": "What is a QR code and how does it work?",
+                "name": "How does QR code tracking work?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "QR (Quick Response) codes are 2D barcodes that store information both vertically and horizontally. They can be scanned by smartphone cameras to instantly access websites, contact information, or other data. Each QR code consists of black squares arranged on a white background."
+                    "text": "When you enable tracking, your QR code points to our secure tracking server instead of directly to your target. Each scan is recorded with timestamp, location, and device info before redirecting to your final destination."
                 }
             },
             {
                 "@type": "Question",
-                "name": "What types of content can I encode in a QR code?",
+                "name": "Is QR code tracking free?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Our QR code generator supports: URLs, plain text, phone numbers, email addresses, SMS messages, contact information (vCard), and Wi-Fi login credentials. Just select the appropriate content type before generating."
+                    "text": "Yes! Our tracking solution uses free Google services (Sheets and Apps Script) with no hidden costs. You maintain full ownership of your scan data."
                 }
             },
             {
                 "@type": "Question",
-                "name": "How long do QR codes last? Do they expire?",
+                "name": "What data is collected when someone scans my QR code?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "QR codes don't expire unless the content they point to is removed or changed. Static QR codes (like those generated here) remain valid indefinitely. The codes themselves have no time limit."
+                    "text": "We collect: Timestamp, approximate location (country), device type, and browser info. We never collect personal identifiers like name or email."
                 }
             },
             {
                 "@type": "Question",
-                "name": "Can I customize the appearance of my QR code?",
+                "name": "Can I see my scan data in real-time?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Yes! Our tool allows you to customize the QR code color, add a logo/image in the center, and adjust the error correction level. However, ensure sufficient contrast between dark and light areas for reliable scanning."
+                    "text": "Yes! All scan data appears instantly in your Google Sheet. You can access it anytime through the 'View Reports' button or directly in Google Sheets."
                 }
             },
             {
                 "@type": "Question",
-                "name": "Are there any scanning limitations I should know?",
+                "name": "Is there a limit to how many scans I can track?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "QR codes have a maximum data capacity of about 3KB. For optimal scanning: maintain at least 1cm border around the code, ensure minimum size of 2x2cm when printed, and test your code with multiple scanning apps."
+                    "text": "Google Sheets can handle up to 10,000 scans per sheet without performance issues. For high-volume campaigns (50,000+ scans), contact us for enterprise solutions."
                 }
             }
         ]
@@ -59,6 +59,7 @@
             --primary: #4361ee;
             --secondary: #3f37c9;
             --success: #4cc9f0;
+            --warning: #f8961e;
             --dark: #212529;
             --light: #f8f9fa;
             --gray: #6c757d;
@@ -195,6 +196,10 @@
             transform: translateY(0);
         }
         
+        .btn-warning {
+            background: linear-gradient(120deg, var(--warning), #f3722c);
+        }
+        
         .qr-container {
             text-align: center;
             padding: 20px;
@@ -270,6 +275,19 @@
             font-size: 1.2rem;
         }
         
+        .tracking-section {
+            background: #fff8e1;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid var(--warning);
+        }
+        
+        .tracking-section h3 {
+            color: var(--warning);
+            margin-bottom: 15px;
+        }
+        
         footer {
             text-align: center;
             padding: 20px;
@@ -297,13 +315,14 @@
 <body>
     <div class="container">
         <header>
-            <h1>Free QR Code Generator</h1>
-            <p>Create customizable QR codes in seconds - no registration required. Perfect for websites, contact sharing, Wi-Fi access, and more!</p>
+            <h1>QR Code Generator with Tracking</h1>
+            <p>Create trackable QR codes and monitor scans in real-time - 100% free!</p>
         </header>
         
         <div class="tool-container">
             <div class="input-section">
                 <h2 class="section-title">Generate Your QR Code</h2>
+                
                 <div class="form-group">
                     <label for="contentType">Content Type</label>
                     <select id="contentType">
@@ -347,6 +366,29 @@
                     <span id="sizeValue">200px</span>
                 </div>
                 
+                <div class="tracking-section">
+                    <h3>Tracking Options</h3>
+                    <div class="form-group">
+                        <input type="checkbox" id="enableTracking">
+                        <label for="enableTracking">Enable Scan Tracking</label>
+                        <p style="font-size: 0.9rem; margin-top: 5px;">Monitor who scans your QR codes and when</p>
+                    </div>
+                    
+                    <div id="trackingOptions" style="display:none;">
+                        <div class="form-group">
+                            <label for="campaignName">Campaign Name</label>
+                            <input type="text" id="campaignName" placeholder="e.g., Summer Promotion">
+                            <small>Identify this QR in your reports</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="utmSource">UTM Source (Optional)</label>
+                            <input type="text" id="utmSource" placeholder="e.g., qr_campaign">
+                            <small>For Google Analytics tracking</small>
+                        </div>
+                    </div>
+                </div>
+                
                 <button id="generateBtn" class="btn">Generate QR Code</button>
             </div>
             
@@ -358,6 +400,15 @@
                         <button id="downloadBtn" class="action-btn" disabled>Download PNG</button>
                         <button id="shareBtn" class="action-btn" disabled>Share</button>
                         <button id="resetBtn" class="action-btn">Reset</button>
+                    </div>
+                </div>
+                
+                <div id="trackingInfo" style="display:none; margin-top:20px">
+                    <div class="tracking-section">
+                        <h3>Tracking Enabled</h3>
+                        <p>Scan data will be recorded to Google Sheets</p>
+                        <p><strong>Tracking ID:</strong> <span id="trackingIdDisplay">None</span></p>
+                        <button id="viewReportsBtn" class="btn btn-warning">View Scan Reports</button>
                     </div>
                 </div>
                 
@@ -376,43 +427,45 @@
         </div>
         
         <div class="info-section">
-            <h2>QR Code Best Practices & Tips</h2>
+            <h2>QR Tracking & Analytics Guide</h2>
             <div class="info-content">
                 <div class="info-box">
-                    <h3>Why Use QR Codes?</h3>
-                    <p>QR codes bridge offline and online experiences. They're perfect for business cards, product packaging, restaurant menus, event promotions, and educational materials. With 75% of smartphone users scanning QR codes, they're an effective engagement tool.</p>
+                    <h3>Setting Up Tracking</h3>
+                    <ol>
+                        <li>Check "Enable Scan Tracking"</li>
+                        <li>Name your campaign for easy identification</li>
+                        <li>Generate your QR code as normal</li>
+                        <li>Click "View Scan Reports" to see your data</li>
+                    </ol>
                 </div>
                 
                 <div class="info-box">
-                    <h3>Optimizing QR Codes</h3>
+                    <h3>Interpreting Your Data</h3>
                     <ul>
-                        <li>Maintain a "quiet zone" (blank margin) around the code</li>
-                        <li>Test with multiple scanning apps before distribution</li>
-                        <li>Add a call-to-action near the code ("Scan to learn more")</li>
-                        <li>Ensure sufficient contrast between code and background</li>
-                        <li>For print materials, minimum size should be 2x2 cm</li>
+                        <li><strong>Timestamp:</strong> Exact scan time (your timezone)</li>
+                        <li><strong>Country:</strong> Approximate location based on IP</li>
+                        <li><strong>Device:</strong> Mobile/Desktop/Tablet detection</li>
+                        <li><strong>Referrer:</strong> Where scan originated (if available)</li>
                     </ul>
                 </div>
                 
                 <div class="info-box">
-                    <h3>Creative Applications</h3>
+                    <h3>Google Sheets Tips</h3>
                     <ul>
-                        <li>Restaurant menus with video recipe links</li>
-                        <li>Museum exhibits with extended information</li>
-                        <li>Business cards with vCard contact details</li>
-                        <li>Product packaging with usage tutorials</li>
-                        <li>Event tickets with last-minute updates</li>
+                        <li>Create charts: Insert > Chart</li>
+                        <li>Filter data: Data > Create filter</li>
+                        <li>Set up notifications: Tools > Notification rules</li>
+                        <li>Sort by date: Right-click timestamp column</li>
                     </ul>
                 </div>
                 
                 <div class="info-box">
-                    <h3>Security Considerations</h3>
-                    <p>While QR codes themselves are safe, they can direct to malicious sites. Always:</p>
+                    <h3>Campaign Optimization</h3>
                     <ul>
-                        <li>Check the URL preview before opening</li>
-                        <li>Use QR scanning apps with security features</li>
-                        <li>Avoid scanning codes from untrusted sources</li>
-                        <li>Never scan codes that look tampered with</li>
+                        <li>Place QR codes in high-traffic areas</li>
+                        <li>Test different CTAs ("Scan for discount")</li>
+                        <li>Combine with UTM parameters for Google Analytics</li>
+                        <li>Use different QR codes for each marketing channel</li>
                     </ul>
                 </div>
             </div>
@@ -424,7 +477,7 @@
         </footer>
     </div>
 
-    <!-- Include QR code generation library -->
+    <!-- QR code generation library -->
     <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
     
     <script>
@@ -443,8 +496,20 @@
             const sizeValue = document.getElementById('sizeValue');
             const fgColor = document.getElementById('fgColor');
             const bgColor = document.getElementById('bgColor');
+            const enableTracking = document.getElementById('enableTracking');
+            const trackingOptions = document.getElementById('trackingOptions');
+            const trackingInfo = document.getElementById('trackingInfo');
+            const viewReportsBtn = document.getElementById('viewReportsBtn');
+            const campaignName = document.getElementById('campaignName');
+            const utmSource = document.getElementById('utmSource');
+            const trackingIdDisplay = document.getElementById('trackingIdDisplay');
+            
+            // Google Apps Script URL - YOU MUST UPDATE THIS AFTER DEPLOYMENT
+            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx95lew0WfoZhCC3vqUg63JbMZfmWhDiDuTs6gDDNSHWAC63py-073IvHlM3nELHHv-/exec';
             
             let qrCode = null;
+            let currentTrackingId = '';
+            let currentContent = '';
             
             // Update size display
             sizeSlider.addEventListener('input', () => {
@@ -472,10 +537,23 @@
                 }
             });
             
+            // Show/hide tracking options
+            enableTracking.addEventListener('change', () => {
+                trackingOptions.style.display = enableTracking.checked ? 'block' : 'none';
+            });
+            
+            // Generate unique tracking ID
+            function generateTrackingId() {
+                return 'TRK-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5).toUpperCase();
+            }
+            
             // Generate QR code
             generateBtn.addEventListener('click', () => {
                 // Clear previous QR code
                 qrcodeDiv.innerHTML = '';
+                
+                // Reset tracking info
+                trackingInfo.style.display = 'none';
                 
                 let content = '';
                 switch(contentType.value) {
@@ -513,6 +591,42 @@
                         
                     default:
                         content = document.getElementById('url').value.trim();
+                }
+                
+                // Store original content
+                currentContent = content;
+                
+                // Handle tracking if enabled
+                if(enableTracking.checked) {
+                    currentTrackingId = generateTrackingId();
+                    const campaign = campaignName.value.trim() || 'Unnamed Campaign';
+                    const source = utmSource.value.trim() || 'qr_code';
+                    
+                    // Build tracking URL
+                    let trackingUrl = `${SCRIPT_URL}?`;
+                    trackingUrl += `id=${encodeURIComponent(currentTrackingId)}`;
+                    trackingUrl += `&campaign=${encodeURIComponent(campaign)}`;
+                    trackingUrl += `&source=${encodeURIComponent(source)}`;
+                    
+                    // Add content-specific parameters
+                    if(contentType.value === 'url') {
+                        trackingUrl += `&type=url&target=${encodeURIComponent(content)}`;
+                    } else {
+                        trackingUrl += `&type=${contentType.value}&data=${encodeURIComponent(content)}`;
+                    }
+                    
+                    // Add UTM parameters to URL content
+                    if(contentType.value === 'url') {
+                        const separator = content.includes('?') ? '&' : '?';
+                        content = `${content}${separator}utm_source=${source}&utm_medium=qr_code&utm_campaign=${encodeURIComponent(campaign)}`;
+                    }
+                    
+                    // Set QR content to tracking URL
+                    content = trackingUrl;
+                    
+                    // Show tracking info
+                    trackingInfo.style.display = 'block';
+                    trackingIdDisplay.textContent = currentTrackingId;
                 }
                 
                 // Generate QR code
@@ -568,12 +682,27 @@
                 document.getElementById('text').value = '';
                 document.getElementById('ssid').value = '';
                 document.getElementById('password').value = '';
+                campaignName.value = '';
+                utmSource.value = '';
                 sizeSlider.value = 200;
                 sizeValue.textContent = '200px';
                 fgColor.value = '#000000';
                 bgColor.value = '#FFFFFF';
+                enableTracking.checked = false;
+                trackingOptions.style.display = 'none';
+                trackingInfo.style.display = 'none';
                 downloadBtn.disabled = true;
                 shareBtn.disabled = true;
+            });
+            
+            // Open reports
+            viewReportsBtn.addEventListener('click', () => {
+                const sheetId = SCRIPT_URL.match(/\/d\/([^\/]+)\//);
+                if(sheetId && sheetId[1]) {
+                    window.open(`https://docs.google.com/spreadsheets/d/${sheetId[1]}`, '_blank');
+                } else {
+                    alert('Reports not available yet. Generate a QR code with tracking first.');
+                }
             });
             
             // Change QR code colors dynamically
