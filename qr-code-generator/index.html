@@ -6,7 +6,7 @@
     <title>Free QR Code Generator | Customizable & Trackable - HandyTools India</title>
     <meta name="description" content="Create customizable QR codes for URLs, contact info, WiFi, and more. Free online tool with analytics tracking and download options.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
     <style>
         :root {
             --primary: #4361ee;
@@ -242,6 +242,7 @@
             border-radius: var(--radius);
             padding: 30px;
             margin-bottom: 25px;
+            background: white;
         }
         
         #qrCode {
@@ -653,23 +654,52 @@
                     formattedContent = `BEGIN:VCARD\nVERSION:3.0\nFN:${name}\nTEL:${phone}\nEMAIL:${email}\nEND:VCARD`;
                 }
                 
-                // Generate QR code
-                new QRCode(qrCodeElement, {
-                    text: formattedContent,
-                    width: size,
-                    height: size,
-                    colorDark: currentColor,
-                    colorLight: "#ffffff",
-                    correctLevel: QRCode.CorrectLevel.H
-                });
-                
-                // Update scan count
-                scanCount = Math.floor(Math.random() * 100) + 50;
-                scanCountElement.textContent = scanCount;
-                
-                // Enable download buttons
-                downloadPngBtn.disabled = false;
-                downloadSvgBtn.disabled = false;
+                try {
+                    // Generate QR code using qrcode-generator library
+                    const qr = qrcode(0, 'H');
+                    qr.addData(formattedContent);
+                    qr.make();
+                    
+                    // Create an image element for the QR code
+                    const qrImg = document.createElement('img');
+                    qrImg.alt = 'Generated QR Code';
+                    qrImg.style.width = `${size}px`;
+                    qrImg.style.height = `${size}px`;
+                    
+                    // Create a canvas to apply custom colors
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    const qrSize = qr.getModuleCount();
+                    const cellSize = size / qrSize;
+                    
+                    canvas.width = size;
+                    canvas.height = size;
+                    
+                    // Draw QR code with custom colors
+                    for (let row = 0; row < qrSize; row++) {
+                        for (let col = 0; col < qrSize; col++) {
+                            ctx.fillStyle = qr.isDark(row, col) ? currentColor : '#ffffff';
+                            ctx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+                        }
+                    }
+                    
+                    // Convert canvas to image
+                    qrImg.src = canvas.toDataURL('image/png');
+                    qrCodeElement.appendChild(qrImg);
+                    
+                    // Update scan count
+                    scanCount = Math.floor(Math.random() * 100) + 50;
+                    scanCountElement.textContent = scanCount;
+                    
+                    // Enable download buttons
+                    downloadPngBtn.disabled = false;
+                    downloadSvgBtn.disabled = false;
+                    
+                } catch (error) {
+                    console.error('QR code generation failed:', error);
+                    alert('Error generating QR code. Please try again with different content.');
+                    qrPlaceholder.style.display = 'block';
+                }
             });
             
             // Reset form
@@ -684,31 +714,37 @@
             
             // Download as PNG
             downloadPngBtn.addEventListener('click', function() {
-                const canvas = qrCodeElement.querySelector('canvas');
-                if (!canvas) return;
+                const img = qrCodeElement.querySelector('img');
+                if (!img) return;
                 
                 const link = document.createElement('a');
                 link.download = 'qrcode.png';
-                link.href = canvas.toDataURL('image/png');
+                link.href = img.src;
                 link.click();
             });
             
             // Download as SVG
             downloadSvgBtn.addEventListener('click', function() {
-                const canvas = qrCodeElement.querySelector('canvas');
-                if (!canvas) return;
+                const img = qrCodeElement.querySelector('img');
+                if (!img) return;
                 
-                // Create SVG from canvas
-                const dataUrl = canvas.toDataURL('image/png');
-                const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${canvas.width}" height="${canvas.height}">
-                    <image href="${dataUrl}" width="${canvas.width}" height="${canvas.height}"/>
-                </svg>`;
+                // Create SVG with the PNG image embedded
+                const svgContent = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="${img.width}" height="${img.height}" viewBox="0 0 ${img.width} ${img.height}">
+                        <image href="${img.src}" width="${img.width}" height="${img.height}"/>
+                    </svg>
+                `;
                 
-                const blob = new Blob([svg], {type: 'image/svg+xml'});
+                const blob = new Blob([svgContent], {type: 'image/svg+xml'});
+                const url = URL.createObjectURL(blob);
+                
                 const link = document.createElement('a');
                 link.download = 'qrcode.svg';
-                link.href = URL.createObjectURL(blob);
+                link.href = url;
                 link.click();
+                
+                // Clean up
+                setTimeout(() => URL.revokeObjectURL(url), 100);
             });
             
             // Initialize
