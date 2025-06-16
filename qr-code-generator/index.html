@@ -423,20 +423,20 @@ footer {
                     <span id="sizeValue">200px</span>
                 </div>
                 
-                <div class="tracking-section">
-                    <h3>Tracking Options</h3>
-                    <div class="form-group">
-                        <input type="checkbox" id="enableTracking">
-                        <label for="enableTracking">Enable Scan Tracking</label>
-                        <p style="font-size: 0.9rem; margin-top: 5px;">Monitor who scans your QR codes and when</p>
-                    </div>
-                    
-                    <div id="trackingOptions" style="display:none;">
-                        <div class="form-group">
-                            <label for="campaignName">Campaign Name</label>
-                            <input type="text" id="campaignName" placeholder="e.g., Summer Promotion">
-                            <small>Identify this QR in your reports</small>
-                        </div>
+<div class="tracking-section">
+  <h3>Tracking Options</h3>
+  <div class="form-group">
+    <input type="checkbox" id="enableTracking">
+    <label for="enableTracking">Enable Scan Tracking</label>
+  </div>
+  
+  <div id="trackingOptions" style="display:none;">
+    <div class="form-group">
+      <label for="campaignName">Campaign Name</label>
+      <input type="text" id="campaignName">
+    </div>
+  </div>
+</div>
                         
                         <div class="form-group">
                             <label for="utmSource">UTM Source (Optional)</label>
@@ -562,7 +562,7 @@ footer {
             const trackingIdDisplay = document.getElementById('trackingIdDisplay');
             
             // Google Apps Script URL - YOU MUST UPDATE THIS AFTER DEPLOYMENT
-            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwKMA5Z6q7QnHtxO4xs6-nCh4mgpr8LOEkuhXqByZ73RmH287g5lHJ1WBWW1SZOsXNf/exec';
+            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzdiEuRqGBNQFiACdxZlrylovP-sg1U-eoc0KoBrdC02gp1tC1UWhqkKQIz1LYxfJHz/exec';
             
             let qrCode = null;
             let currentTrackingId = '';
