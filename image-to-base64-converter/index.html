@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to Base64 Converter | HandyToolsIndia</title>
+    <meta name="description" content="Convert images to Base64 strings instantly. Free online tool for PNG, JPG, GIF, and WebP images. No registration required.">
+    <meta name="keywords" content="image to base64, base64 converter, image encoder, online image converter, free image tool">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is Base64 encoding?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Base64 is a binary-to-text encoding scheme that represents binary data in an ASCII string format. It's commonly used to embed images directly in HTML, CSS, or JSON files."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why convert images to Base64?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Base64-encoded images can be embedded directly in code, reducing HTTP requests. This is useful for small images, data URIs, and when you need to include images in JSON files or databases."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What image formats are supported?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Our converter supports all common image formats including JPG, PNG, GIF, WebP, BMP, and SVG."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is there a file size limit?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "There's no strict limit, but very large images may take longer to process. For optimal performance, we recommend images under 5MB."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is my image data secure?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Absolutely! All processing happens in your browser. Your images never leave your device and are not uploaded to any server."
+                }
+            }
+        ]
+    }
+    </script>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+            --danger: #e63946;
+            --dark: #212529;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --light-blue: #e7f5ff;
+            --light-orange: #fff3e6;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(120deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+            position: relative;
+        }
+        
+        .tool-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+        
+        @media (max-width: 992px) {
+            .tool-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .input-section, .output-section {
+            background: var(--light);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--success);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title i {
+            font-size: 1.6rem;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .upload-area {
+            border: 2px dashed var(--primary);
+            border-radius: 10px;
+            padding: 40px 20px;
+            text-align: center;
+            background: var(--light-blue);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .upload-area:hover {
+            background: #d8ebff;
+            transform: translateY(-3px);
+        }
+        
+        .upload-area.drag-over {
+            background: #c1e0ff;
+            border-color: var(--secondary);
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .upload-text {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .browse-btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .browse-btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .preview-container {
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+        
+        .preview-title {
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .image-preview {
+            max-width: 100%;
+            max-height: 250px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .image-info {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .btn {
+            background: linear-gradient(120deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            display: block;
+            margin-top: 10px;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-success {
+            background: linear-gradient(120deg, var(--success), #2a9d8f);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(120deg, var(--warning), #f3722c);
+        }
+        
+        .output-area {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #e0e0e0;
+            display: none;
+        }
+        
+        .base64-output {
+            width: 100%;
+            min-height: 200px;
+            max-height: 300px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+            overflow: auto;
+            background: #f8f9fa;
+        }
+        
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 576px) {
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .action-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            border: none;
+            color: white;
+        }
+        
+        .copy-btn {
+            background: linear-gradient(120deg, var(--primary), var(--secondary));
+        }
+        
+        .download-btn {
+            background: linear-gradient(120deg, var(--success), #2a9d8f);
+        }
+        
+        .reset-btn {
+            background: linear-gradient(120deg, var(--warning), #f3722c);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+        
+        .info-section {
+            background: #e8f4fc;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 30px;
+        }
+        
+        .info-section h2 {
+            color: var(--secondary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .info-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .info-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .info-box h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .info-box h3 i {
+            font-size: 1.4rem;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--gray);
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+            background: #f8f9fa;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .tool-container {
+                padding: 20px;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .input-section, .output-section {
+                padding: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            header {
+                padding: 20px 15px;
+            }
+            
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.2rem;
+            }
+            
+            .tool-container {
+                padding: 15px;
+                gap: 20px;
+            }
+        }
+        
+        .status-message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            text-align: center;
+            display: none;
+        }
+        
+        .status-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-image"></i> Image to Base64 Converter</h1>
+            <p>Convert images to Base64 strings instantly - 100% free and secure</p>
+        </header>
+        
+        <div class="tool-container">
+            <div class="input-section">
+                <h2 class="section-title"><i class="fas fa-upload"></i> Upload Your Image</h2>
+                
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="upload-text">
+                        <h3>Drag & Drop your image here</h3>
+                        <p>or click to browse files</p>
+                    </div>
+                    <div class="browse-btn">
+                        <i class="fas fa-folder-open"></i> Browse Files
+                    </div>
+                    <input type="file" id="fileInput" class="file-input" accept="image/*">
+                </div>
+                
+                <div class="preview-container" id="previewContainer">
+                    <div class="preview-title">Image Preview</div>
+                    <img id="imagePreview" class="image-preview" alt="Image Preview">
+                    <div class="image-info" id="imageInfo"></div>
+                </div>
+                
+                <div class="form-group">
+                    <button id="resetBtn" class="btn reset-btn" style="display: none;">
+                        <i class="fas fa-redo"></i> Reset Converter
+                    </button>
+                </div>
+            </div>
+            
+            <div class="output-section">
+                <h2 class="section-title"><i class="fas fa-code"></i> Base64 Result</h2>
+                
+                <div id="statusMessage" class="status-message"></div>
+                
+                <div class="output-area" id="outputArea">
+                    <textarea id="base64Output" class="base64-output" readonly placeholder="Your Base64 code will appear here..."></textarea>
+                    
+                    <div class="action-buttons">
+                        <button id="copyBtn" class="action-btn copy-btn">
+                            <i class="fas fa-copy"></i> Copy to Clipboard
+                        </button>
+                        <button id="downloadBtn" class="action-btn download-btn">
+                            <i class="fas fa-download"></i> Download as Text
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="info-box" style="margin-top: 20px;">
+                    <h3><i class="fas fa-lightbulb"></i> Pro Tip</h3>
+                    <p>Base64 strings can be used directly in HTML with the data URI scheme:</p>
+                    <pre style="background: #f8f9fa; padding: 10px; border-radius: 5px; margin-top: 10px; overflow-x: auto;">
+&lt;img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUg..." alt="Base64 Image"&gt;</pre>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <h2><i class="fas fa-info-circle"></i> About Base64 Encoding</h2>
+            <div class="info-content">
+                <div class="info-box">
+                    <h3><i class="fas fa-wrench"></i> How It Works</h3>
+                    <p>Base64 encoding converts binary image data into a text-based format using 64 different ASCII characters. This allows images to be embedded directly in code without separate file references.</p>
+                </div>
+                
+                <div class="info-box">
+                    <h3><i class="fas fa-check-circle"></i> Benefits</h3>
+                    <ul>
+                        <li>Reduces HTTP requests for small images</li>
+                        <li>Enables image embedding in CSS and HTML</li>
+                        <li>Useful for storing images in databases</li>
+                        <li>Works with all modern browsers</li>
+                    </ul>
+                </div>
+                
+                <div class="info-box">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Limitations</h3>
+                    <ul>
+                        <li>Increases file size by about 33%</li>
+                        <li>Not suitable for large images</li>
+                        <li>Browser caching doesn't work as effectively</li>
+                        <li>Can make source code harder to read</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2025 HandyToolsIndia - Free Online Tools for Everyday Tasks</p>
+            <p>100% Client-Side Processing - Your Data Never Leaves Your Device</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM elements
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInput = document.getElementById('fileInput');
+            const previewContainer = document.getElementById('previewContainer');
+            const imagePreview = document.getElementById('imagePreview');
+            const imageInfo = document.getElementById('imageInfo');
+            const outputArea = document.getElementById('outputArea');
+            const base64Output = document.getElementById('base64Output');
+            const copyBtn = document.getElementById('copyBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const statusMessage = document.getElementById('statusMessage');
+            
+            // Event listeners
+            uploadArea.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', handleImageUpload);
+            copyBtn.addEventListener('click', copyToClipboard);
+            downloadBtn.addEventListener('click', downloadBase64);
+            resetBtn.addEventListener('click', resetConverter);
+            
+            // Drag and drop events
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('drag-over');
+            });
+            
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('drag-over');
+            });
+            
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('drag-over');
+                
+                if (e.dataTransfer.files.length) {
+                    fileInput.files = e.dataTransfer.files;
+                    handleImageUpload();
+                }
+            });
+            
+            // Handle image upload
+            function handleImageUpload() {
+                const file = fileInput.files[0];
+                
+                if (!file) return;
+                
+                // Check if file is an image
+                if (!file.type.match('image.*')) {
+                    showStatus('Please select a valid image file (JPG, PNG, GIF, etc.)', true);
+                    return;
+                }
+                
+                // Check file size (max 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    showStatus('File size exceeds 5MB limit. Please choose a smaller image.', true);
+                    return;
+                }
+                
+                // Display image preview
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    previewContainer.style.display = 'block';
+                    
+                    // Show image info
+                    imageInfo.innerHTML = `
+                        <strong>${file.name}</strong> | 
+                        ${(file.size / 1024).toFixed(2)} KB | 
+                        ${file.type}
+                    `;
+                    
+                    // Convert to Base64
+                    convertToBase64(e.target.result);
+                };
+                reader.readAsDataURL(file);
+                
+                // Show reset button
+                resetBtn.style.display = 'block';
+            }
+            
+            // Convert image to Base64
+            function convertToBase64(dataURL) {
+                // Extract Base64 data from data URL
+                const base64Data = dataURL.split(',')[1];
+                base64Output.value = base64Data;
+                outputArea.style.display = 'block';
+                showStatus('Image converted to Base64 successfully!');
+            }
+            
+            // Copy to clipboard
+            function copyToClipboard() {
+                base64Output.select();
+                document.execCommand('copy');
+                
+                // Show success message
+                showStatus('Base64 code copied to clipboard!');
+                
+                // Visual feedback
+                copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy to Clipboard';
+                }, 2000);
+            }
+            
+            // Download as text file
+            function downloadBase64() {
+                if (!base64Output.value) {
+                    showStatus('No Base64 data to download', true);
+                    return;
+                }
+                
+                const fileName = fileInput.files[0]?.name || 'image';
+                const blob = new Blob([base64Output.value], {type: 'text/plain'});
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${fileName.split('.')[0]}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                
+                // Clean up
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 100);
+                
+                // Show success message
+                showStatus('Base64 file downloaded successfully!');
+            }
+            
+            // Reset converter
+            function resetConverter() {
+                fileInput.value = '';
+                previewContainer.style.display = 'none';
+                outputArea.style.display = 'none';
+                base64Output.value = '';
+                resetBtn.style.display = 'none';
+                statusMessage.style.display = 'none';
+            }
+            
+            // Show status message
+            function showStatus(message, isError = false) {
+                statusMessage.textContent = message;
+                statusMessage.className = isError ? 'status-message status-error' : 'status-message status-success';
+                statusMessage.style.display = 'block';
+                
+                // Hide message after 5 seconds
+                setTimeout(() => {
+                    statusMessage.style.display = 'none';
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+</html>
