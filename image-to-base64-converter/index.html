@@ -4,240 +4,167 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image to Base64 Converter | HandyToolsIndia</title>
-    <meta name="description" content="Convert images to Base64 strings instantly. Free online tool for PNG, JPG, GIF, and WebP images. No registration required.">
-    <meta name="keywords" content="image to base64, base64 converter, image encoder, online image converter, free image tool">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-            {
-                "@type": "Question",
-                "name": "What is Base64 encoding?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Base64 is a binary-to-text encoding scheme that represents binary data in an ASCII string format. It's commonly used to embed images directly in HTML, CSS, or JSON files."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Why convert images to Base64?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Base64-encoded images can be embedded directly in code, reducing HTTP requests. This is useful for small images, data URIs, and when you need to include images in JSON files or databases."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "What image formats are supported?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Our converter supports all common image formats including JPG, PNG, GIF, WebP, BMP, and SVG."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Is there a file size limit?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "There's no strict limit, but very large images may take longer to process. For optimal performance, we recommend images under 5MB."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Is my image data secure?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Absolutely! All processing happens in your browser. Your images never leave your device and are not uploaded to any server."
-                }
-            }
-        ]
-    }
-    </script>
     <style>
-        :root {
-            --primary: #4361ee;
-            --secondary: #3f37c9;
-            --success: #4cc9f0;
-            --warning: #f8961e;
-            --danger: #e63946;
-            --dark: #212529;
-            --light: #f8f9fa;
-            --gray: #6c757d;
-            --light-blue: #e7f5ff;
-            --light-orange: #fff3e6;
-        }
-        
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
-            color: var(--dark);
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #333;
             line-height: 1.6;
-            padding: 20px;
             min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        
+
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            width: 100%;
+            max-width: 1000px;
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
             overflow: hidden;
         }
-        
+
         header {
-            background: linear-gradient(120deg, var(--primary), var(--secondary));
+            background: linear-gradient(120deg, #4361ee, #3f37c9);
             color: white;
             text-align: center;
             padding: 30px 20px;
             position: relative;
-            overflow: hidden;
         }
-        
-        header::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
-            transform: rotate(30deg);
-        }
-        
+
         header h1 {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             margin-bottom: 10px;
-            position: relative;
+            font-weight: 700;
         }
-        
+
         header p {
             font-size: 1.1rem;
             max-width: 700px;
             margin: 0 auto;
             opacity: 0.9;
-            position: relative;
         }
-        
+
         .tool-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            padding: 25px;
         }
-        
-        @media (max-width: 992px) {
+
+        @media (min-width: 768px) {
             .tool-container {
-                grid-template-columns: 1fr;
+                flex-direction: row;
+                gap: 30px;
             }
         }
-        
+
         .input-section, .output-section {
-            background: var(--light);
-            border-radius: 10px;
+            background: #f8f9fa;
+            border-radius: 15px;
             padding: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            flex: 1;
+            margin-bottom: 20px;
         }
-        
+
+        @media (min-width: 768px) {
+            .input-section, .output-section {
+                margin-bottom: 0;
+            }
+        }
+
         .section-title {
             font-size: 1.4rem;
             margin-bottom: 20px;
-            color: var(--secondary);
+            color: #3f37c9;
             padding-bottom: 10px;
-            border-bottom: 2px solid var(--success);
+            border-bottom: 2px solid #4cc9f0;
             display: flex;
             align-items: center;
             gap: 10px;
         }
-        
+
         .section-title i {
             font-size: 1.6rem;
         }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--dark);
-        }
-        
+
         .upload-area {
-            border: 2px dashed var(--primary);
-            border-radius: 10px;
-            padding: 40px 20px;
+            border: 2px dashed #4361ee;
+            border-radius: 12px;
+            padding: 30px 20px;
             text-align: center;
-            background: var(--light-blue);
+            background: #e8f4ff;
             transition: all 0.3s ease;
             cursor: pointer;
             position: relative;
             overflow: hidden;
         }
-        
-        .upload-area:hover {
+
+        .upload-area:hover, .upload-area.drag-over {
             background: #d8ebff;
             transform: translateY(-3px);
         }
-        
-        .upload-area.drag-over {
-            background: #c1e0ff;
-            border-color: var(--secondary);
-        }
-        
+
         .upload-icon {
             font-size: 3rem;
-            color: var(--primary);
+            color: #4361ee;
             margin-bottom: 15px;
         }
-        
+
         .upload-text {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             font-size: 1.1rem;
         }
-        
+
+        .upload-text h3 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            color: #3f37c9;
+        }
+
         .browse-btn {
             display: inline-block;
-            background: var(--primary);
+            background: #4361ee;
             color: white;
-            padding: 10px 25px;
+            padding: 12px 30px;
             border-radius: 30px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-size: 1rem;
         }
-        
+
         .browse-btn:hover {
-            background: var(--secondary);
+            background: #3f37c9;
             transform: translateY(-2px);
         }
-        
+
         .file-input {
             display: none;
         }
-        
+
         .preview-container {
             margin-top: 20px;
             text-align: center;
             display: none;
         }
-        
+
         .preview-title {
             margin-bottom: 15px;
             font-weight: 600;
-            color: var(--dark);
+            color: #333;
+            font-size: 1.2rem;
         }
-        
+
         .image-preview {
             max-width: 100%;
             max-height: 250px;
@@ -246,46 +173,13 @@
             display: block;
             margin: 0 auto;
         }
-        
+
         .image-info {
             margin-top: 10px;
             font-size: 0.9rem;
-            color: var(--gray);
+            color: #666;
         }
-        
-        .btn {
-            background: linear-gradient(120deg, var(--primary), var(--secondary));
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 14px 20px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            display: block;
-            margin-top: 10px;
-            width: 100%;
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
-        }
-        
-        .btn:active {
-            transform: translateY(0);
-        }
-        
-        .btn-success {
-            background: linear-gradient(120deg, var(--success), #2a9d8f);
-        }
-        
-        .btn-warning {
-            background: linear-gradient(120deg, var(--warning), #f3722c);
-        }
-        
+
         .output-area {
             background: white;
             border-radius: 10px;
@@ -294,34 +188,34 @@
             border: 1px solid #e0e0e0;
             display: none;
         }
-        
+
         .base64-output {
             width: 100%;
-            min-height: 200px;
-            max-height: 300px;
+            min-height: 150px;
+            max-height: 250px;
             padding: 15px;
             border: 1px solid #ddd;
             border-radius: 8px;
             font-family: monospace;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             resize: vertical;
             overflow: auto;
             background: #f8f9fa;
         }
-        
+
         .action-buttons {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
             margin-top: 20px;
         }
-        
+
         @media (max-width: 576px) {
             .action-buttons {
                 grid-template-columns: 1fr;
             }
         }
-        
+
         .action-btn {
             display: flex;
             align-items: center;
@@ -335,89 +229,106 @@
             text-align: center;
             border: none;
             color: white;
+            font-size: 1rem;
         }
-        
+
         .copy-btn {
-            background: linear-gradient(120deg, var(--primary), var(--secondary));
+            background: linear-gradient(120deg, #4361ee, #3f37c9);
         }
-        
+
         .download-btn {
-            background: linear-gradient(120deg, var(--success), #2a9d8f);
+            background: linear-gradient(120deg, #4cc9f0, #2a9d8f);
         }
-        
+
         .reset-btn {
-            background: linear-gradient(120deg, var(--warning), #f3722c);
+            background: linear-gradient(120deg, #f8961e, #f3722c);
+            width: 100%;
+            margin-top: 15px;
         }
-        
+
         .action-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
-        
+
         .info-section {
             background: #e8f4fc;
-            border-radius: 10px;
+            border-radius: 15px;
             padding: 25px;
-            margin: 20px 30px;
+            margin: 0 25px 25px;
         }
-        
+
         .info-section h2 {
-            color: var(--secondary);
+            color: #3f37c9;
             margin-bottom: 20px;
             text-align: center;
+            font-size: 1.6rem;
         }
-        
+
         .info-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: 1fr;
             gap: 20px;
         }
-        
+
+        @media (min-width: 768px) {
+            .info-content {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
         .info-box {
             background: white;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
         }
-        
+
         .info-box h3 {
-            color: var(--primary);
+            color: #4361ee;
             margin-bottom: 15px;
             font-size: 1.2rem;
             display: flex;
             align-items: center;
             gap: 10px;
         }
-        
+
         .info-box h3 i {
             font-size: 1.4rem;
         }
-        
+
         footer {
             text-align: center;
             padding: 20px;
-            color: var(--gray);
+            color: #6c757d;
             font-size: 0.9rem;
             border-top: 1px solid #eee;
             background: #f8f9fa;
         }
-        
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .tool-container {
-                padding: 20px;
-            }
-            
-            header h1 {
-                font-size: 2rem;
-            }
-            
-            .input-section, .output-section {
-                padding: 20px;
-            }
+
+        .status-message {
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+            font-weight: 500;
         }
-        
-        @media (max-width: 480px) {
+
+        .status-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Mobile specific optimizations */
+        @media (max-width: 767px) {
             body {
                 padding: 10px;
             }
@@ -430,34 +341,58 @@
                 font-size: 1.8rem;
             }
             
+            .tool-container {
+                padding: 15px;
+            }
+            
+            .input-section, .output-section {
+                padding: 20px;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+            }
+            
+            .upload-text h3 {
+                font-size: 1.2rem;
+            }
+            
+            .browse-btn {
+                padding: 10px 20px;
+                font-size: 0.95rem;
+            }
+        }
+
+        /* Very small mobile devices */
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.6rem;
+            }
+            
+            header p {
+                font-size: 0.95rem;
+            }
+            
             .section-title {
                 font-size: 1.2rem;
             }
             
-            .tool-container {
-                padding: 15px;
-                gap: 20px;
+            .upload-area {
+                padding: 20px 15px;
             }
-        }
-        
-        .status-message {
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            text-align: center;
-            display: none;
-        }
-        
-        .status-success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .status-error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+            
+            .upload-icon {
+                font-size: 2.5rem;
+            }
+            
+            .upload-text {
+                font-size: 1rem;
+            }
+            
+            .action-btn {
+                font-size: 0.9rem;
+                padding: 10px 12px;
+            }
         }
     </style>
 </head>
@@ -465,23 +400,23 @@
     <div class="container">
         <header>
             <h1><i class="fas fa-image"></i> Image to Base64 Converter</h1>
-            <p>Convert images to Base64 strings instantly - 100% free and secure</p>
+            <p>Convert images to Base64 strings instantly - Works perfectly on mobile and desktop</p>
         </header>
         
         <div class="tool-container">
             <div class="input-section">
-                <h2 class="section-title"><i class="fas fa-upload"></i> Upload Your Image</h2>
+                <h2 class="section-title"><i class="fas fa-upload"></i> Upload Image</h2>
                 
                 <div class="upload-area" id="uploadArea">
                     <div class="upload-icon">
                         <i class="fas fa-cloud-upload-alt"></i>
                     </div>
                     <div class="upload-text">
-                        <h3>Drag & Drop your image here</h3>
-                        <p>or click to browse files</p>
+                        <h3>Drag & Drop your image</h3>
+                        <p>or tap to select from device</p>
                     </div>
                     <div class="browse-btn">
-                        <i class="fas fa-folder-open"></i> Browse Files
+                        <i class="fas fa-folder-open"></i> Select Image
                     </div>
                     <input type="file" id="fileInput" class="file-input" accept="image/*">
                 </div>
@@ -492,11 +427,9 @@
                     <div class="image-info" id="imageInfo"></div>
                 </div>
                 
-                <div class="form-group">
-                    <button id="resetBtn" class="btn reset-btn" style="display: none;">
-                        <i class="fas fa-redo"></i> Reset Converter
-                    </button>
-                </div>
+                <button id="resetBtn" class="action-btn reset-btn" style="display: none;">
+                    <i class="fas fa-redo"></i> Reset Converter
+                </button>
             </div>
             
             <div class="output-section">
@@ -519,8 +452,8 @@
                 
                 <div class="info-box" style="margin-top: 20px;">
                     <h3><i class="fas fa-lightbulb"></i> Pro Tip</h3>
-                    <p>Base64 strings can be used directly in HTML with the data URI scheme:</p>
-                    <pre style="background: #f8f9fa; padding: 10px; border-radius: 5px; margin-top: 10px; overflow-x: auto;">
+                    <p>Use Base64 strings directly in HTML:</p>
+                    <pre style="background: #f8f9fa; padding: 10px; border-radius: 5px; margin-top: 10px; overflow-x: auto; font-size: 0.8rem;">
 &lt;img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUg..." alt="Base64 Image"&gt;</pre>
                 </div>
             </div>
@@ -545,20 +478,15 @@
                 </div>
                 
                 <div class="info-box">
-                    <h3><i class="fas fa-exclamation-triangle"></i> Limitations</h3>
-                    <ul>
-                        <li>Increases file size by about 33%</li>
-                        <li>Not suitable for large images</li>
-                        <li>Browser caching doesn't work as effectively</li>
-                        <li>Can make source code harder to read</li>
-                    </ul>
+                    <h3><i class="fas fa-mobile-alt"></i> Mobile Optimized</h3>
+                    <p>This tool works perfectly on all devices with a responsive interface that adapts to your screen size. Touch-friendly controls make it easy to use on smartphones and tablets.</p>
                 </div>
             </div>
         </div>
         
         <footer>
             <p>© 2025 HandyToolsIndia - Free Online Tools for Everyday Tasks</p>
-            <p>100% Client-Side Processing - Your Data Never Leaves Your Device</p>
+            <p>100% Client-Side Processing - Your Images Never Leave Your Device</p>
         </footer>
     </div>
 
