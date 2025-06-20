@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .decoder-container {
+            width: 100%;
+            max-width: 1000px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            min-height: 600px;
+        }
+
+        .tool-header {
+            background: linear-gradient(120deg, #4361ee, #3f37c9);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            position: relative;
+        }
+
+        .tool-header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .tool-header p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .tool-content {
+            display: flex;
+            flex-direction: column;
+            padding: 25px;
+            gap: 25px;
+        }
+
+        @media (min-width: 768px) {
+            .tool-content {
+                flex-direction: row;
+            }
+        }
+
+        .input-section, .output-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            flex: 1;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: #3f37c9;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4cc9f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            font-size: 1.6rem;
+        }
+
+        .input-area {
+            width: 100%;
+            min-height: 200px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            font-family: monospace;
+            font-size: 0.95rem;
+            resize: vertical;
+            background: white;
+        }
+
+        .input-area:focus {
+            outline: none;
+            border-color: #4361ee;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        @media (min-width: 480px) {
+            .action-buttons {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            border: none;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .decode-btn {
+            background: linear-gradient(120deg, #4361ee, #3f37c9);
+        }
+
+        .reset-btn {
+            background: linear-gradient(120deg, #f8961e, #f3722c);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .output-area {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #e0e0e0;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .text-output {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.95rem;
+            resize: vertical;
+            overflow: auto;
+            background: #f8f9fa;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .image-output {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .download-btn {
+            background: linear-gradient(120deg, #4cc9f0, #2a9d8f);
+            margin-top: 20px;
+            display: none;
+        }
+
+        .info-section {
+            background: #e8f4fc;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 0 25px 25px;
+        }
+
+        .info-section h2 {
+            color: #3f37c9;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.6rem;
+        }
+
+        .info-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .info-content {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .info-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .info-box h3 {
+            color: #4361ee;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .info-box ul {
+            padding-left: 20px;
+        }
+
+        .info-box li {
+            margin-bottom: 8px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #6c757d;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+            background: #f8f9fa;
+        }
+
+        .status-message {
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+            font-weight: 500;
+        }
+
+        .status-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Mobile specific optimizations */
+        @media (max-width: 767px) {
+            body {
+                padding: 10px;
+            }
+            
+            .tool-header {
+                padding: 20px 15px;
+            }
+            
+            .tool-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .tool-content {
+                padding: 15px;
+                gap: 15px;
+            }
+            
+            .input-section, .output-section {
+                padding: 20px;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Very small mobile devices */
+        @media (max-width: 480px) {
+            .tool-header h1 {
+                font-size: 1.6rem;
+            }
+            
+            .tool-header p {
+                font-size: 0.95rem;
+            }
+            
+            .section-title {
+                font-size: 1.2rem;
+            }
+            
+            .input-area {
+                min-height: 150px;
+                font-size: 0.85rem;
+            }
+            
+            .action-btn {
+                font-size: 0.9rem;
+                padding: 10px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="decoder-container">
+        <div class="tool-header">
+            <h1><i class="fas fa-lock-open"></i> Base64 Decoder</h1>
+            <p>Decode Base64 strings to text or images instantly - Works perfectly on all devices</p>
+        </div>
+        
+        <div class="tool-content">
+            <div class="input-section">
+                <h2 class="section-title"><i class="fas fa-keyboard"></i> Input</h2>
+                <textarea class="input-area" id="base64Input" placeholder="Paste your Base64 encoded string here..."></textarea>
+                
+                <div class="action-buttons">
+                    <button id="decodeBtn" class="action-btn decode-btn">
+                        <i class="fas fa-unlock"></i> Decode Base64
+                    </button>
+                    <button id="resetBtn" class="action-btn reset-btn">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                </div>
+                
+                <div id="statusMessage" class="status-message"></div>
+            </div>
+            
+            <div class="output-section">
+                <h2 class="section-title"><i class="fas fa-file-code"></i> Output</h2>
+                <div class="output-area">
+                    <div id="textOutput" class="text-output">Decoded content will appear here...</div>
+                    <img id="imageOutput" class="image-output" alt="Decoded image">
+                    <button id="downloadBtn" class="action-btn download-btn">
+                        <i class="fas fa-download"></i> Download Image
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <h2><i class="fas fa-info-circle"></i> About Base64 Decoding</h2>
+            <div class="info-content">
+                <div class="info-box">
+                    <h3><i class="fas fa-wrench"></i> How It Works</h3>
+                    <p>Base64 decoding converts ASCII text back into its original binary format. This tool automatically detects if the decoded data is text or an image.</p>
+                </div>
+                
+                <div class="info-box">
+                    <h3><i class="fas fa-lightbulb"></i> Usage Tips</h3>
+                    <ul>
+                        <li>Paste any Base64 encoded string</li>
+                        <li>Supports text, PNG, JPG, GIF and WebP</li>
+                        <li>Decoded images can be downloaded</li>
+                        <li>Works with all modern browsers</li>
+                    </ul>
+                </div>
+                
+                <div class="info-box">
+                    <h3><i class="fas fa-mobile-alt"></i> Mobile Friendly</h3>
+                    <p>This tool works perfectly on all devices with a responsive interface that adapts to your screen size. Touch-friendly controls make it easy to use on smartphones and tablets.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 HandyToolsIndia - Free Online Tools for Everyday Tasks</p>
+            <p>100% Client-Side Processing - Your Data Never Leaves Your Device</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM elements
+            const base64Input = document.getElementById('base64Input');
+            const decodeBtn = document.getElementById('decodeBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const textOutput = document.getElementById('textOutput');
+            const imageOutput = document.getElementById('imageOutput');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const statusMessage = document.getElementById('statusMessage');
+            
+            // Event listeners
+            decodeBtn.addEventListener('click', decodeBase64);
+            resetBtn.addEventListener('click', resetDecoder);
+            downloadBtn.addEventListener('click', downloadImage);
+            
+            // Decode Base64
+            function decodeBase64() {
+                const base64String = base64Input.value.trim();
+                
+                if (!base64String) {
+                    showStatus('Please enter a Base64 encoded string', true);
+                    return;
+                }
+                
+                try {
+                    // Check if it's a valid Base64 string
+                    if (!/^[a-zA-Z0-9+/=]+$/.test(base64String)) {
+                        showStatus('Invalid Base64 string. Only letters, numbers, +, /, and = are allowed.', true);
+                        return;
+                    }
+                    
+                    // Try to decode as text
+                    try {
+                        const decodedText = atob(base64String);
+                        // If it's likely text, display as text
+                        if (decodedText.length > 0 && decodedText.length < 5000 && 
+                            !decodedText.includes('\0') && 
+                            /^[\x00-\x7F]*$/.test(decodedText)) {
+                            displayText(decodedText);
+                        } else {
+                            // Otherwise, try to display as image
+                            displayImage(base64String);
+                        }
+                    } catch (e) {
+                        // If atob fails, try to display as image
+                        displayImage(base64String);
+                    }
+                } catch (error) {
+                    showStatus('Error decoding Base64: ' + error.message, true);
+                    console.error(error);
+                }
+            }
+            
+            // Display decoded text
+            function displayText(text) {
+                textOutput.textContent = text;
+                textOutput.style.display = 'block';
+                imageOutput.style.display = 'none';
+                downloadBtn.style.display = 'none';
+                showStatus('Base64 decoded successfully as text!');
+            }
+            
+            // Display decoded image
+            function displayImage(base64String) {
+                imageOutput.src = 'data:image/png;base64,' + base64String;
+                imageOutput.onload = function() {
+                    textOutput.style.display = 'none';
+                    imageOutput.style.display = 'block';
+                    downloadBtn.style.display = 'block';
+                    showStatus('Base64 decoded successfully as image!');
+                };
+                imageOutput.onerror = function() {
+                    showStatus('Failed to decode as image. Displaying as text.', true);
+                    try {
+                        const decodedText = atob(base64String);
+                        displayText(decodedText);
+                    } catch (e) {
+                        showStatus('Error decoding Base64: ' + e.message, true);
+                    }
+                };
+            }
+            
+            // Download decoded image
+            function downloadImage() {
+                const link = document.createElement('a');
+                link.href = imageOutput.src;
+                link.download = 'decoded-image.png';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showStatus('Image downloaded successfully!');
+            }
+            
+            // Reset decoder
+            function resetDecoder() {
+                base64Input.value = '';
+                textOutput.textContent = 'Decoded content will appear here...';
+                textOutput.style.display = 'block';
+                imageOutput.style.display = 'none';
+                downloadBtn.style.display = 'none';
+                statusMessage.style.display = 'none';
+            }
+            
+            // Show status message
+            function showStatus(message, isError = false) {
+                statusMessage.textContent = message;
+                statusMessage.className = isError ? 'status-message status-error' : 'status-message status-success';
+                statusMessage.style.display = 'block';
+                
+                // Hide message after 5 seconds
+                setTimeout(() => {
+                    statusMessage.style.display = 'none';
+                }, 5000);
+            }
+            
+            // Load Font Awesome from CDN
+            const fontAwesome = document.createElement('link');
+            fontAwesome.rel = 'stylesheet';
+            fontAwesome.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+            document.head.appendChild(fontAwesome);
+        });
+    </script>
+</body>
+</html>
