@@ -3,39 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Base64 Decoder | HandyToolsIndia</title>
+    <title>Advanced Base64 Decoder | HandyToolsIndia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --success: #4cc9f0;
+            --dark: #212529;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --danger: #e63946;
+            --warning: #ff9e00;
+            --info: #4895ef;
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
         
-        :root {
-            --primary: #4361ee;
-            --secondary: #3f37c9;
-            --success: #4cc9f0;
-            --dark: #212529;
-            --light: #f8f9fa;
-            --gray: #6c757d;
-            --danger: #e63946;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: var(--dark);
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: linear-gradient(135deg, #f0f4ff 0%, #e6eeff 100%);
             min-height: 100vh;
             padding: 20px;
         }
         
         .tool-container {
-            max-width: 1200px;
-            margin: 20px auto;
+            max-width: 1400px;
+            margin: 30px auto;
             background: white;
-            border-radius: 16px;
+            border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             overflow: hidden;
         }
@@ -43,7 +47,7 @@
         .tool-header {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            padding: 25px 20px;
+            padding: 35px 30px;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -56,127 +60,101 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%);
             transform: rotate(30deg);
+            pointer-events: none;
         }
         
         .tool-header h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
             position: relative;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
         
         .tool-header p {
-            opacity: 0.9;
-            font-size: 1.1rem;
-            max-width: 700px;
+            opacity: 0.92;
+            font-size: 1.25rem;
+            max-width: 800px;
             margin: 0 auto;
             position: relative;
+            font-weight: 300;
         }
         
         .tool-content {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 25px;
-            padding: 25px;
+            gap: 30px;
+            padding: 30px;
         }
         
-        @media (min-width: 768px) {
+        @media (min-width: 992px) {
             .tool-content {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 1.2fr 0.8fr;
             }
         }
         
         .input-section, .output-section {
             background: var(--light);
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: var(--shadow);
-            border: 1px solid #e0e6f0;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid #e0e6ff;
         }
         
         .section-title {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--primary);
             color: var(--secondary);
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 15px;
         }
         
         .section-title i {
+            font-size: 1.8rem;
+        }
+        
+        .input-card {
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .input-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .input-card h3 i {
             font-size: 1.5rem;
         }
         
-        .input-methods {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
-        @media (min-width: 480px) {
-            .input-methods {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-        
-        .input-option {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid #e9ecef;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
-        }
-        
-        .input-option:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-            border-color: var(--primary);
-        }
-        
-        .input-option.active {
-            border-color: var(--primary);
-            background: linear-gradient(to bottom right, rgba(67, 97, 238, 0.05), rgba(63, 55, 201, 0.08));
-        }
-        
-        .input-option i {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 15px;
-        }
-        
-        .input-option h3 {
-            font-size: 1.1rem;
-            margin-bottom: 8px;
-            color: var(--dark);
-        }
-        
-        .input-option p {
-            font-size: 0.9rem;
-            color: var(--gray);
-        }
-        
         .textarea-container {
-            margin-top: 20px;
+            margin-top: 15px;
+            position: relative;
         }
         
         textarea {
             width: 100%;
-            min-height: 180px;
-            padding: 15px;
-            border: 1px solid #ced4da;
-            border-radius: 8px;
-            font-family: monospace;
+            min-height: 200px;
+            padding: 20px;
+            border: 1px solid #ced4ff;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
             resize: vertical;
-            font-size: 0.95rem;
-            transition: all 0.3s;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: #fafbff;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
         }
         
         textarea:focus {
@@ -185,19 +163,29 @@
             box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.2);
         }
         
+        .char-count {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+        
         .file-upload {
             margin-top: 20px;
-            display: none;
         }
         
         .drop-area {
-            border: 2px dashed #ced4da;
-            border-radius: 10px;
-            padding: 35px 20px;
+            border: 3px dashed #b8c1ff;
+            border-radius: 14px;
+            padding: 40px 20px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
-            background: rgba(255,255,255,0.7);
+            transition: var(--transition);
+            background: #f8f9ff;
         }
         
         .drop-area:hover, .drop-area.dragover {
@@ -206,16 +194,16 @@
         }
         
         .drop-area i {
-            font-size: 3.5rem;
+            font-size: 4rem;
             color: var(--primary);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             opacity: 0.8;
         }
         
         .drop-area p {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             color: var(--gray);
-            font-size: 1rem;
+            font-size: 1.1rem;
         }
         
         .file-input {
@@ -223,23 +211,26 @@
         }
         
         .btn {
-            display: inline-block;
-            padding: 12px 25px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 30px;
             background: var(--primary);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 1.05rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             font-weight: 600;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
         }
         
         .btn:hover {
             background: var(--secondary);
             transform: translateY(-3px);
-            box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.4);
         }
         
         .btn:active {
@@ -250,65 +241,105 @@
             background: var(--gray);
             cursor: not-allowed;
             opacity: 0.7;
+            transform: none;
+            box-shadow: none;
         }
         
         .btn-outline {
             background: transparent;
-            border: 2px solid var(--primary);
+            border: 3px solid var(--primary);
             color: var(--primary);
+            box-shadow: none;
         }
         
         .btn-outline:hover {
             background: rgba(67, 97, 238, 0.1);
         }
         
+        .btn-warning {
+            background: var(--warning);
+            box-shadow: 0 5px 15px rgba(255, 158, 0, 0.3);
+        }
+        
+        .btn-warning:hover {
+            background: #e68a00;
+        }
+        
         .action-buttons {
             display: flex;
             gap: 15px;
-            margin-top: 20px;
+            margin-top: 25px;
             flex-wrap: wrap;
         }
         
         .preview-container {
-            margin-top: 25px;
+            margin-top: 30px;
             text-align: center;
-            display: none;
+        }
+        
+        .preview-box {
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .preview-placeholder {
+            color: var(--gray);
+            font-size: 1.1rem;
+            text-align: center;
         }
         
         .preview-image {
             max-width: 100%;
-            max-height: 320px;
-            border-radius: 10px;
-            box-shadow: var(--shadow);
+            max-height: 400px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
             margin-bottom: 20px;
             border: 1px solid #e0e0e0;
+            display: none;
         }
         
         .preview-text {
             text-align: left;
-            background: white;
-            border: 1px solid #ced4da;
-            border-radius: 8px;
+            background: #f8f9ff;
+            border: 1px solid #ced4ff;
+            border-radius: 12px;
             padding: 20px;
-            max-height: 220px;
+            max-height: 300px;
             overflow: auto;
-            font-family: monospace;
+            font-family: 'Courier New', monospace;
             white-space: pre-wrap;
             word-break: break-all;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            width: 100%;
+            display: none;
+        }
+        
+        .file-info {
+            background: #e8f0ff;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            width: 100%;
+            display: none;
         }
         
         .progress-container {
-            margin-top: 20px;
+            margin-top: 25px;
             display: none;
         }
         
         .progress-bar {
-            height: 12px;
+            height: 14px;
             background: #e9ecef;
-            border-radius: 6px;
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: inset 0 1px 4px rgba(0,0,0,0.1);
         }
         
         .progress-fill {
@@ -320,28 +351,30 @@
         
         .progress-text {
             text-align: center;
-            font-size: 0.95rem;
+            font-size: 1.05rem;
             color: var(--gray);
-            margin-top: 8px;
+            margin-top: 10px;
             font-weight: 500;
         }
         
         .notification {
             position: fixed;
-            top: 25px;
-            right: 25px;
-            padding: 18px 30px;
+            top: 30px;
+            right: 30px;
+            padding: 20px 35px;
             background: var(--success);
             color: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
             transform: translateX(150%);
             transition: transform 0.4s ease;
             z-index: 1000;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 15px;
             font-weight: 500;
+            font-size: 1.1rem;
+            max-width: 400px;
         }
         
         .notification.show {
@@ -349,86 +382,87 @@
         }
         
         .notification i {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
         }
         
         .footer {
             text-align: center;
-            padding: 25px;
+            padding: 30px;
             color: var(--gray);
-            font-size: 0.95rem;
+            font-size: 1.05rem;
             border-top: 1px solid #e9ecef;
-            margin-top: 20px;
             background: rgba(240, 242, 245, 0.7);
         }
         
-        .tooltip {
-            position: relative;
-            display: inline-block;
-        }
-        
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 160px;
-            background-color: var(--dark);
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 8px;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.3s;
-            font-size: 0.9rem;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-        }
-        
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
-        
-        .performance-info {
-            background: #e8f4fc;
-            border-left: 4px solid var(--primary);
-            padding: 15px;
-            border-radius: 0 8px 8px 0;
-            margin: 20px 0;
-            font-size: 0.9rem;
+        .performance-card {
+            background: linear-gradient(to bottom right, #f0f4ff, #e6eeff);
+            border-radius: 14px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: var(--card-shadow);
         }
         
         .info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
         }
         
         .info-card {
             background: white;
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
             text-align: center;
+            transition: var(--transition);
+        }
+        
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
         
         .info-card i {
-            font-size: 2rem;
+            font-size: 2.8rem;
             color: var(--primary);
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
         
         .info-card h4 {
-            margin-bottom: 5px;
+            margin-bottom: 10px;
             color: var(--secondary);
+            font-size: 1.3rem;
+        }
+        
+        .info-card p {
+            color: var(--gray);
+            font-size: 1rem;
+        }
+        
+        .warning-banner {
+            background: linear-gradient(to right, #fff8e6, #ffecb3);
+            border-left: 5px solid var(--warning);
+            padding: 20px;
+            border-radius: 0 10px 10px 0;
+            margin: 25px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .warning-banner i {
+            font-size: 2.5rem;
+            color: var(--warning);
         }
         
         @media (max-width: 767px) {
             .tool-header h1 {
-                font-size: 1.8rem;
+                font-size: 2.2rem;
+            }
+            
+            .tool-header p {
+                font-size: 1.1rem;
             }
             
             .action-buttons {
@@ -437,14 +471,15 @@
             
             .btn {
                 width: 100%;
+                justify-content: center;
             }
             
             .tool-content {
-                padding: 15px;
+                padding: 20px;
             }
             
             .input-section, .output-section {
-                padding: 20px;
+                padding: 25px;
             }
         }
     </style>
@@ -452,68 +487,54 @@
 <body>
     <div class="tool-container">
         <div class="tool-header">
-            <h1>Base64 Decoder</h1>
-            <p>Efficiently decode Base64 strings to their original format with optimized processing for large inputs</p>
+            <h1><i class="fas fa-cogs"></i> Advanced Base64 Decoder</h1>
+            <p>Effortlessly decode large Base64 strings with intelligent image detection and optimized processing</p>
         </div>
         
         <div class="tool-content">
             <div class="input-section">
                 <div class="section-title">
-                    <i>📥</i>
-                    <h2>Input</h2>
+                    <i class="fas fa-file-import"></i>
+                    <h2>Input Base64 Content</h2>
                 </div>
                 
-                <div class="performance-info">
-                    <p><strong>Optimized Performance:</strong> Uses chunked processing and Web Workers to handle large inputs without crashing</p>
-                    <div class="info-grid">
-                        <div class="info-card">
-                            <i>⚡</i>
-                            <h4>Fast Processing</h4>
-                            <p>Chunked decoding</p>
-                        </div>
-                        <div class="info-card">
-                            <i>📊</i>
-                            <h4>Large Files</h4>
-                            <p>Handles MBs of data</p>
-                        </div>
-                        <div class="info-card">
-                            <i>📱</i>
-                            <h4>No Freezing</h4>
-                            <p>UI remains responsive</p>
+                <div class="input-card">
+                    <h3><i class="fas fa-paste"></i> Paste Base64 String</h3>
+                    <div class="textarea-container">
+                        <textarea id="input-text" placeholder="Paste your Base64 encoded string here..."></textarea>
+                        <div class="char-count">0 characters</div>
+                    </div>
+                </div>
+                
+                <div class="input-card">
+                    <h3><i class="fas fa-file-upload"></i> Or Upload File</h3>
+                    <div class="file-upload">
+                        <div class="drop-area" id="drop-area">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Drag & drop your Base64 file here</p>
+                            <p>or</p>
+                            <button class="btn btn-outline" id="browse-btn">
+                                <i class="fas fa-folder-open"></i> Browse Files
+                            </button>
+                            <input type="file" id="file-input" class="file-input">
                         </div>
                     </div>
                 </div>
                 
-                <div class="input-methods">
-                    <div class="input-option active" id="text-option">
-                        <i>📝</i>
-                        <h3>Text Input</h3>
-                        <p>Paste Base64 string to decode</p>
-                    </div>
-                    <div class="input-option" id="file-option">
-                        <i>📁</i>
-                        <h3>File Upload</h3>
-                        <p>Upload Base64 text file</p>
-                    </div>
-                </div>
-                
-                <div class="textarea-container">
-                    <textarea id="input-text" placeholder="Enter Base64 string to decode..."></textarea>
-                </div>
-                
-                <div class="file-upload" id="file-upload-section">
-                    <div class="drop-area" id="drop-area">
-                        <i>📤</i>
-                        <p>Drag & drop your Base64 file here</p>
-                        <p>or</p>
-                        <button class="btn btn-outline" id="browse-btn">Browse Files</button>
-                        <input type="file" id="file-input" class="file-input">
+                <div class="warning-banner">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div>
+                        <strong>Large File Notice:</strong> Files over 5MB will skip preview to ensure optimal performance. Download the result to view the full content.
                     </div>
                 </div>
                 
                 <div class="action-buttons">
-                    <button class="btn" id="decode-btn">Decode Now</button>
-                    <button class="btn btn-outline" id="clear-btn">Clear All</button>
+                    <button class="btn" id="decode-btn">
+                        <i class="fas fa-bolt"></i> Decode Now
+                    </button>
+                    <button class="btn btn-outline" id="clear-btn">
+                        <i class="fas fa-trash-alt"></i> Clear All
+                    </button>
                 </div>
                 
                 <div class="progress-container" id="progress-container">
@@ -522,143 +543,119 @@
                     </div>
                     <div class="progress-text" id="progress-text">Processing...</div>
                 </div>
+                
+                <div class="performance-card">
+                    <h3>Optimized for Large Files</h3>
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <i class="fas fa-microchip"></i>
+                            <h4>Efficient Processing</h4>
+                            <p>Chunked decoding prevents browser crashes</p>
+                        </div>
+                        <div class="info-card">
+                            <i class="fas fa-image"></i>
+                            <h4>Smart Preview</h4>
+                            <p>Automatically detects and previews images</p>
+                        </div>
+                        <div class="info-card">
+                            <i class="fas fa-download"></i>
+                            <h4>Safe Download</h4>
+                            <p>Download large files without preview</p>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <div class="output-section">
                 <div class="section-title">
-                    <i>📤</i>
-                    <h2>Output</h2>
+                    <i class="fas fa-file-export"></i>
+                    <h2>Decoded Output</h2>
                 </div>
                 
-                <div class="preview-container" id="preview-container">
-                    <!-- Preview will be shown here -->
+                <div class="preview-container">
+                    <div class="preview-box">
+                        <div class="preview-placeholder" id="preview-placeholder">
+                            <i class="fas fa-file-alt"></i>
+                            <h3>Output Preview</h3>
+                            <p>Decoded content will appear here after processing</p>
+                        </div>
+                        <img class="preview-image" id="preview-image" alt="Decoded image preview">
+                        <div class="preview-text" id="preview-text"></div>
+                        
+                        <div class="file-info" id="file-info">
+                            <div><strong>File Type:</strong> <span id="file-type">Unknown</span></div>
+                            <div><strong>File Size:</strong> <span id="file-size">0 KB</span></div>
+                            <div><strong>Dimensions:</strong> <span id="file-dimensions">N/A</span></div>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="action-buttons">
-                    <button class="btn tooltip" id="copy-btn">
-                        <i>📋</i> Copy to Clipboard
-                        <span class="tooltiptext">Copies the output to clipboard</span>
+                    <button class="btn" id="copy-btn">
+                        <i class="fas fa-copy"></i> Copy to Clipboard
                     </button>
-                    <button class="btn btn-outline tooltip" id="download-btn">
-                        <i>💾</i> Download
-                        <span class="tooltiptext">Download the result</span>
+                    <button class="btn btn-warning" id="download-btn">
+                        <i class="fas fa-download"></i> Download File
                     </button>
-                </div>
-                
-                <div class="textarea-container" style="margin-top: 20px;">
-                    <textarea id="output-text" placeholder="Decoded result will appear here..." readonly></textarea>
                 </div>
             </div>
         </div>
         
         <div class="footer">
-            <p>HandyToolsIndia - Free Online Tools for Everyday Needs</p>
+            <p><i class="fas fa-tools"></i> HandyToolsIndia - Free Online Tools for Everyday Needs</p>
             <p>100% Client-Side Processing - Your Data Never Leaves Your Browser</p>
         </div>
     </div>
     
     <div class="notification" id="notification">
-        <i>✅</i>
-        <span>Copied to clipboard!</span>
+        <i class="fas fa-check-circle"></i>
+        <span>Decoding completed successfully!</span>
     </div>
     
     <script>
         // DOM Elements
         const inputText = document.getElementById('input-text');
-        const outputText = document.getElementById('output-text');
         const decodeBtn = document.getElementById('decode-btn');
         const clearBtn = document.getElementById('clear-btn');
         const copyBtn = document.getElementById('copy-btn');
         const downloadBtn = document.getElementById('download-btn');
-        const textOption = document.getElementById('text-option');
-        const fileOption = document.getElementById('file-option');
-        const fileUploadSection = document.getElementById('file-upload-section');
         const dropArea = document.getElementById('drop-area');
         const fileInput = document.getElementById('file-input');
         const browseBtn = document.getElementById('browse-btn');
-        const previewContainer = document.getElementById('preview-container');
+        const previewImage = document.getElementById('preview-image');
+        const previewText = document.getElementById('preview-text');
+        const previewPlaceholder = document.getElementById('preview-placeholder');
+        const fileInfo = document.getElementById('file-info');
+        const fileType = document.getElementById('file-type');
+        const fileSize = document.getElementById('file-size');
+        const fileDimensions = document.getElementById('file-dimensions');
         const progressContainer = document.getElementById('progress-container');
         const progressFill = document.getElementById('progress-fill');
         const progressText = document.getElementById('progress-text');
         const notification = document.getElementById('notification');
+        const charCount = document.querySelector('.char-count');
         
-        // Global state
-        let currentInputType = 'text'; // 'text' or 'file'
-        let fileData = null;
-        let processing = false;
-        let worker = null;
-        
-        // Initialize Web Worker
-        function initWorker() {
-            if (worker) return;
+        // State variables
+        let decodedContent = null;
+        let mimeType = null;
+        let fileName = 'decoded-content';
+        let fileSizeBytes = 0;
+        let isLargeFile = false;
+        const LARGE_FILE_THRESHOLD = 5 * 1024 * 1024; // 5MB
+        const CHUNK_SIZE = 50000; // Process in 50k character chunks
+
+        // Initialize character counter
+        inputText.addEventListener('input', function() {
+            const length = this.value.length;
+            charCount.textContent = length.toLocaleString() + ' characters';
+            charCount.style.display = length > 0 ? 'block' : 'none';
             
-            const workerCode = `
-                self.addEventListener('message', function(e) {
-                    const { base64, chunkSize } = e.data;
-                    const totalChunks = Math.ceil(base64.length / chunkSize);
-                    
-                    // Create a buffer for the decoded data
-                    const byteCharacters = atob(base64);
-                    const byteArrays = new Uint8Array(byteCharacters.length);
-                    
-                    for (let i = 0; i < byteCharacters.length; i++) {
-                        byteArrays[i] = byteCharacters.charCodeAt(i);
-                    }
-                    
-                    // Convert to string
-                    const textDecoder = new TextDecoder();
-                    const decodedString = textDecoder.decode(byteArrays);
-                    
-                    // Send result back
-                    self.postMessage({
-                        result: decodedString
-                    });
-                });
-            `;
-            
-            const blob = new Blob([workerCode], { type: 'application/javascript' });
-            worker = new Worker(URL.createObjectURL(blob));
-            
-            worker.onmessage = function(e) {
-                const { result } = e.data;
-                outputText.value = result;
-                showPreview(result);
-                processing = false;
-                progressContainer.style.display = 'none';
-                showNotification('Decoding completed successfully!');
-            };
-            
-            worker.onerror = function(error) {
-                console.error('Worker error:', error);
-                outputText.value = 'Error: ' + error.message;
-                showNotification('Decoding error occurred', 'error');
-                processing = false;
-                progressContainer.style.display = 'none';
-            };
-        }
-        
+            // Estimate file size
+            fileSizeBytes = Math.floor(length * 0.75);
+            isLargeFile = fileSizeBytes > LARGE_FILE_THRESHOLD;
+        });
+
         // Event Listeners
-        textOption.addEventListener('click', () => {
-            if (currentInputType === 'file') {
-                currentInputType = 'text';
-                textOption.classList.add('active');
-                fileOption.classList.remove('active');
-                fileUploadSection.style.display = 'none';
-                inputText.placeholder = 'Enter Base64 string to decode...';
-            }
-        });
-        
-        fileOption.addEventListener('click', () => {
-            if (currentInputType === 'text') {
-                currentInputType = 'file';
-                fileOption.classList.add('active');
-                textOption.classList.remove('active');
-                fileUploadSection.style.display = 'block';
-                inputText.value = '';
-                previewContainer.style.display = 'none';
-            }
-        });
-        
         decodeBtn.addEventListener('click', decodeData);
         clearBtn.addEventListener('click', resetAll);
         copyBtn.addEventListener('click', copyToClipboard);
@@ -671,6 +668,7 @@
         // Drag and drop events
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             dropArea.addEventListener(eventName, preventDefaults, false);
+            document.addEventListener(eventName, preventDefaults, false);
         });
         
         function preventDefaults(e) {
@@ -711,124 +709,245 @@
             if (files.length === 0) return;
             
             const file = files[0];
-            
-            if (!file.type.match('text.*') && !file.name.endsWith('.txt')) {
-                showNotification('Please upload a text file containing Base64', 'error');
-                return;
-            }
+            isLargeFile = file.size > LARGE_FILE_THRESHOLD;
+            fileSizeBytes = file.size;
             
             const reader = new FileReader();
             reader.onload = function(e) {
                 inputText.value = e.target.result;
-                decodeData();
+                charCount.textContent = e.target.result.length.toLocaleString() + ' characters';
+                charCount.style.display = 'block';
             };
             reader.readAsText(file);
         }
         
         // Main decoding function
         function decodeData() {
-            if (processing) return;
-            
             // Reset output
             resetOutput();
-            processing = true;
-            progressContainer.style.display = 'block';
-            progressFill.style.width = '0%';
-            progressText.textContent = 'Starting...';
-            
             const base64 = inputText.value.trim();
+            
             if (!base64) {
                 showNotification('Please enter a Base64 string to decode', 'error');
-                processing = false;
-                progressContainer.style.display = 'none';
                 return;
             }
             
-            // Initialize worker if needed
-            initWorker();
+            // Show progress UI
+            progressContainer.style.display = 'block';
+            progressFill.style.width = '0%';
+            progressText.textContent = 'Starting decoding process...';
+            decodeBtn.disabled = true;
             
-            // Simulate progress for large inputs
-            simulateProgress();
-            
-            // Send data to worker for decoding
-            worker.postMessage({
-                base64: base64,
-                chunkSize: 10000 // Process in 10KB chunks
-            });
-        }
-        
-        // Simulate progress for visual feedback
-        function simulateProgress() {
-            let progress = 0;
-            const interval = setInterval(() => {
-                if (!processing) {
-                    clearInterval(interval);
-                    return;
+            // Start processing in chunks
+            setTimeout(() => {
+                try {
+                    // Extract MIME type if present in data URL
+                    let cleanBase64 = base64;
+                    const dataUrlMatch = base64.match(/^data:(.+?);base64,/);
+                    if (dataUrlMatch) {
+                        mimeType = dataUrlMatch[1];
+                        cleanBase64 = base64.substring(dataUrlMatch[0].length);
+                    }
+                    
+                    // Start chunked decoding
+                    decodeInChunks(cleanBase64);
+                } catch (error) {
+                    progressContainer.style.display = 'none';
+                    decodeBtn.disabled = false;
+                    showNotification('Decoding error: ' + error.message, 'error');
+                    console.error('Decoding error:', error);
                 }
-                
-                progress += 2;
-                if (progress > 90) progress = 90; // Hold at 90% until done
-                progressFill.style.width = `${progress}%`;
-                progressText.textContent = `Processing... ${progress}%`;
             }, 100);
         }
         
-        // Show preview based on content type
-        function showPreview(content) {
-            previewContainer.innerHTML = '';
-            previewContainer.style.display = 'block';
+        // Efficient chunked decoding
+        function decodeInChunks(base64Str) {
+            const totalChunks = Math.ceil(base64Str.length / CHUNK_SIZE);
+            let decoded = '';
+            let processedChunks = 0;
             
-            if (typeof content === 'string' && content.length > 500) {
-                // Text preview for large content
-                const pre = document.createElement('div');
-                pre.textContent = content.substring(0, 500) + '...';
-                pre.classList.add('preview-text');
-                previewContainer.appendChild(pre);
+            // Update progress every 10 chunks to reduce UI updates
+            const updateProgress = () => {
+                const progress = Math.round((processedChunks / totalChunks) * 100);
+                progressFill.style.width = `${progress}%`;
+                progressText.textContent = `Processing... ${progress}%`;
                 
-                const typeInfo = document.createElement('p');
-                typeInfo.innerHTML = `Text preview (first 500 characters of ${content.length.toLocaleString()})`;
-                typeInfo.style.marginTop = '15px';
-                typeInfo.style.fontWeight = '500';
-                previewContainer.appendChild(typeInfo);
-            } else {
-                // Full content for small text
-                const pre = document.createElement('div');
-                pre.textContent = content;
-                pre.classList.add('preview-text');
-                previewContainer.appendChild(pre);
+                // Yield to the UI thread periodically
+                setTimeout(processNextChunk, 10);
+            };
+            
+            const processNextChunk = () => {
+                if (processedChunks >= totalChunks) {
+                    // Decoding complete
+                    progressContainer.style.display = 'none';
+                    decodeBtn.disabled = false;
+                    
+                    // Process the full decoded content
+                    processDecodedResult(decoded);
+                    return;
+                }
                 
-                const typeInfo = document.createElement('p');
-                typeInfo.innerHTML = `Decoded text content (${content.length.toLocaleString()} characters)`;
-                typeInfo.style.marginTop = '15px';
-                typeInfo.style.fontWeight = '500';
-                previewContainer.appendChild(typeInfo);
+                const start = processedChunks * CHUNK_SIZE;
+                const end = Math.min(start + CHUNK_SIZE, base64Str.length);
+                const chunk = base64Str.substring(start, end);
+                
+                try {
+                    decoded += atob(chunk);
+                    processedChunks++;
+                    
+                    // Update progress periodically
+                    if (processedChunks % 10 === 0 || processedChunks === totalChunks) {
+                        updateProgress();
+                    } else {
+                        processNextChunk();
+                    }
+                } catch (error) {
+                    progressContainer.style.display = 'none';
+                    decodeBtn.disabled = false;
+                    showNotification('Error decoding chunk: ' + error.message, 'error');
+                }
+            };
+            
+            // Start processing
+            processNextChunk();
+        }
+        
+        // Process decoded result
+        function processDecodedResult(decodedStr) {
+            decodedContent = decodedStr;
+            
+            // Hide placeholder
+            previewPlaceholder.style.display = 'none';
+            
+            // If we don't have MIME type, try to detect it
+            if (!mimeType) {
+                if (decodedStr.startsWith('\x89PNG\r\n\x1a\n')) {
+                    mimeType = 'image/png';
+                } else if (decodedStr.startsWith('\xff\xd8\xff')) {
+                    mimeType = 'image/jpeg';
+                } else if (decodedStr.startsWith('GIF8')) {
+                    mimeType = 'image/gif';
+                } else if (decodedStr.startsWith('%PDF')) {
+                    mimeType = 'application/pdf';
+                }
+            }
+            
+            // Handle image preview
+            if (mimeType && mimeType.startsWith('image/') && !isLargeFile) {
+                // Create data URL for image
+                const dataUrl = `data:${mimeType};base64,${inputText.value.trim()}`;
+                
+                // Show image preview
+                previewImage.src = dataUrl;
+                previewImage.style.display = 'block';
+                
+                // Once image is loaded, show dimensions
+                previewImage.onload = function() {
+                    fileDimensions.textContent = `${this.naturalWidth} × ${this.naturalHeight} pixels`;
+                };
+                
+                // File info
+                fileType.textContent = mimeType;
+                fileSize.textContent = formatFileSize(fileSizeBytes);
+                fileInfo.style.display = 'block';
+                
+                // Set filename
+                const ext = mimeType.split('/')[1];
+                fileName = `decoded-image.${ext}`;
+                
+                showNotification('Image decoded successfully!');
+            } 
+            // Handle text preview
+            else if (!isLargeFile) {
+                // Show text preview
+                previewText.textContent = decodedStr;
+                previewText.style.display = 'block';
+                
+                // File info
+                fileType.textContent = mimeType || 'text/plain';
+                fileSize.textContent = formatFileSize(fileSizeBytes);
+                fileInfo.style.display = 'block';
+                
+                fileName = mimeType === 'application/pdf' ? 'document.pdf' : 'decoded-content.txt';
+                
+                showNotification('Content decoded successfully!');
+            } 
+            // Large file handling
+            else {
+                previewPlaceholder.style.display = 'flex';
+                previewPlaceholder.innerHTML = `
+                    <i class="fas fa-archive"></i>
+                    <h3>Large File Processed</h3>
+                    <p>This file is too large to preview. Download the result to view the content.</p>
+                    <p>Size: ${formatFileSize(fileSizeBytes)}</p>
+                `;
+                
+                fileType.textContent = mimeType || 'unknown';
+                fileSize.textContent = formatFileSize(fileSizeBytes);
+                fileInfo.style.display = 'block';
+                
+                fileName = mimeType ? 
+                    `decoded-file.${mimeType.split('/').pop()}` : 
+                    'decoded-content.bin';
+                
+                showNotification('Large file decoded successfully! Download available.');
             }
         }
         
-        // Copy output to clipboard
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' bytes';
+            else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+            else return (bytes / 1048576).toFixed(1) + ' MB';
+        }
+        
+        // Copy to clipboard
         function copyToClipboard() {
-            if (!outputText.value) {
+            if (!decodedContent) {
                 showNotification('Nothing to copy', 'error');
                 return;
             }
             
-            outputText.select();
+            if (isLargeFile) {
+                showNotification('Large content cannot be copied. Please download instead.', 'error');
+                return;
+            }
+            
+            // Create temporary textarea
+            const textarea = document.createElement('textarea');
+            textarea.value = decodedContent;
+            document.body.appendChild(textarea);
+            textarea.select();
             document.execCommand('copy');
+            document.body.removeChild(textarea);
             
             showNotification('Copied to clipboard!');
         }
         
         // Download result
         function downloadResult() {
-            if (!outputText.value) {
+            if (!decodedContent) {
                 showNotification('Nothing to download', 'error');
                 return;
             }
             
-            const blob = new Blob([outputText.value], {type: 'text/plain'});
+            let blob;
+            
+            if (mimeType) {
+                // Create typed array for binary data
+                const byteArray = new Uint8Array(decodedContent.length);
+                for (let i = 0; i < decodedContent.length; i++) {
+                    byteArray[i] = decodedContent.charCodeAt(i);
+                }
+                blob = new Blob([byteArray], {type: mimeType});
+            } else {
+                blob = new Blob([decodedContent], {type: 'application/octet-stream'});
+            }
+            
+            // Create download link
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = 'decoded-content.txt';
+            a.download = fileName;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -836,49 +955,55 @@
         
         // Reset output
         function resetOutput() {
-            outputText.value = '';
-            previewContainer.style.display = 'none';
-            previewContainer.innerHTML = '';
-            fileData = null;
+            decodedContent = null;
+            mimeType = null;
+            previewImage.style.display = 'none';
+            previewText.style.display = 'none';
+            previewPlaceholder.style.display = 'flex';
+            previewPlaceholder.innerHTML = `
+                <i class="fas fa-file-alt"></i>
+                <h3>Output Preview</h3>
+                <p>Decoded content will appear here after processing</p>
+            `;
+            fileInfo.style.display = 'none';
         }
         
         // Reset everything
         function resetAll() {
             inputText.value = '';
             resetOutput();
-            if (currentInputType === 'file') {
-                fileInput.value = '';
-            }
+            charCount.style.display = 'none';
+            fileInput.value = '';
+            progressContainer.style.display = 'none';
             showNotification('Input cleared', 'info');
         }
         
         // Show notification
         function showNotification(message, type = 'success') {
-            notification.innerHTML = `<i>${type === 'error' ? '❌' : type === 'info' ? 'ℹ️' : '✅'}</i><span>${message}</span>`;
-            notification.style.background = type === 'error' ? 'var(--danger)' : 
-                                          type === 'info' ? 'var(--gray)' : 'var(--success)';
+            let icon, bgColor;
+            
+            switch(type) {
+                case 'error':
+                    icon = '<i class="fas fa-exclamation-circle"></i>';
+                    bgColor = 'var(--danger)';
+                    break;
+                case 'info':
+                    icon = '<i class="fas fa-info-circle"></i>';
+                    bgColor = 'var(--info)';
+                    break;
+                default:
+                    icon = '<i class="fas fa-check-circle"></i>';
+                    bgColor = 'var(--success)';
+            }
+            
+            notification.innerHTML = `${icon}<span>${message}</span>`;
+            notification.style.background = bgColor;
             notification.classList.add('show');
             
             setTimeout(() => {
                 notification.classList.remove('show');
-            }, 3000);
+            }, 4000);
         }
-        
-        // Initialize tooltips
-        const tooltips = document.querySelectorAll('.tooltip');
-        tooltips.forEach(tooltip => {
-            tooltip.addEventListener('mouseenter', function() {
-                const tooltipText = this.querySelector('.tooltiptext');
-                tooltipText.style.visibility = 'visible';
-                tooltipText.style.opacity = '1';
-            });
-            
-            tooltip.addEventListener('mouseleave', function() {
-                const tooltipText = this.querySelector('.tooltiptext');
-                tooltipText.style.visibility = 'hidden';
-                tooltipText.style.opacity = '0';
-            });
-        });
     </script>
 </body>
 </html>
