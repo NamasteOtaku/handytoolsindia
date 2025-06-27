@@ -1,582 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Text Case Converter Tool | HandyTools India</title>
-    <meta name="description" content="Convert text between uppercase, lowercase, title case, sentence case and more with our free online text case converter tool. Perfect for writers, students, and professionals.">
-    <style>
-        :root {
-            --primary: #4361ee;
-            --secondary: #3a0ca3;
-            --accent: #4cc9f0;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --success: #2ec4b6;
-            --warning: #ff9f1c;
-            --danger: #e71d36;
-            --gray: #6c757d;
-            --border: #dee2e6;
-            --radius: 10px;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #f0f4f8 0%, #e6e9f0 100%);
-            color: var(--dark);
-            line-height: 1.6;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        
-        header {
-            text-align: center;
-            padding: 30px 20px;
-            margin-bottom: 30px;
-        }
-        
-        .logo {
-            font-size: 2.8rem;
-            font-weight: 700;
-            color: var(--secondary);
-            margin-bottom: 10px;
-        }
-        
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: var(--secondary);
-        }
-        
-        .subtitle {
-            color: var(--gray);
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto 25px;
-        }
-        
-        .tool-container {
-            background: white;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            margin-bottom: 40px;
-        }
-        
-        .tool-header {
-            background: var(--primary);
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        
-        .tool-body {
-            padding: 30px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-        }
-        
-        @media (max-width: 768px) {
-            .tool-body {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        .input-group, .output-group {
-            margin-bottom: 20px;
-        }
-        
-        .input-group label, .output-group label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 600;
-            color: var(--dark);
-        }
-        
-        textarea {
-            width: 100%;
-            min-height: 200px;
-            padding: 15px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            font-size: 1rem;
-            resize: vertical;
-            transition: border-color 0.3s;
-        }
-        
-        textarea:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(76, 201, 240, 0.2);
-        }
-        
-        .case-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 12px;
-            margin: 20px 0;
-        }
-        
-        .case-option {
-            background: var(--light);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 15px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .case-option:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow);
-            border-color: var(--accent);
-        }
-        
-        .case-option.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-        
-        .case-option h4 {
-            font-size: 1rem;
-            margin-bottom: 5px;
-        }
-        
-        .case-option p {
-            font-size: 0.85rem;
-            opacity: 0.8;
-        }
-        
-        .actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 20px 0;
-        }
-        
-        .btn {
-            flex: 1;
-            min-width: 120px;
-            padding: 14px 20px;
-            border: none;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-        
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
-        
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        .btn-primary:hover {
-            background: var(--secondary);
-        }
-        
-        .btn-outline:hover {
-            background: var(--primary);
-            color: white;
-        }
-        
-        .faq-section {
-            background: white;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            padding: 30px;
-            margin-bottom: 40px;
-        }
-        
-        .faq-section h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: var(--secondary);
-        }
-        
-        .faq-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-        }
-        
-        .faq-item {
-            background: var(--light);
-            border-radius: var(--radius);
-            padding: 20px;
-            border-left: 4px solid var(--primary);
-        }
-        
-        .faq-item h3 {
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
-        
-        .info-section {
-            background: white;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            padding: 30px;
-            margin-bottom: 40px;
-        }
-        
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 25px;
-            margin-top: 20px;
-        }
-        
-        .info-card {
-            text-align: center;
-            padding: 20px;
-            border-radius: var(--radius);
-            background: linear-gradient(135deg, #f0f8ff 0%, #e6f7ff 100%);
-        }
-        
-        .info-card h3 {
-            color: var(--primary);
-            margin-bottom: 15px;
-        }
-        
-        footer {
-            text-align: center;
-            padding: 30px;
-            color: var(--gray);
-            margin-top: 30px;
-            border-top: 1px solid var(--border);
-        }
-        
-        .tool-link {
-            display: inline-block;
-            margin-top: 15px;
-            color: var(--primary);
-            font-weight: 600;
-            text-decoration: none;
-        }
-        
-        .tool-link:hover {
-            text-decoration: underline;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Text Case Converter | HandyToolsIndia</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .container {
+      width: 100%;
+      max-width: 800px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+    }
+    header {
+      background: #2575fc;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    main {
+      padding: 25px;
+    }
+    .input-group {
+      margin-bottom: 25px;
+    }
+    textarea {
+      width: 100%;
+      min-height: 150px;
+      padding: 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      resize: vertical;
+      transition: border-color 0.3s;
+    }
+    textarea:focus {
+      border-color: #2575fc;
+      outline: none;
+    }
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+    button {
+      background: #2575fc;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s, transform 0.1s;
+    }
+    button:hover {
+      background: #1a65e0;
+    }
+    button:active {
+      transform: scale(0.98);
+    }
+    .output-group {
+      position: relative;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #4CAF50;
+      padding: 8px 15px;
+    }
+    .copy-btn:hover {
+      background: #43A047;
+    }
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #f5f5f5;
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .controls {
+        grid-template-columns: 1fr 1fr;
+      }
+      h1 { font-size: 1.3rem; }
+      .container { border-radius: 12px; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo">HandyTools India</div>
-            <h1>Text Case Converter</h1>
-            <p class="subtitle">Transform your text to uppercase, lowercase, title case, sentence case and more with our free online tool</p>
-        </header>
-        
-        <div class="tool-container">
-            <div class="tool-header">
-                <h2>Free Text Case Converter</h2>
-                <p>Convert your text to any case format instantly</p>
-            </div>
-            
-            <div class="tool-body">
-                <div class="input-section">
-                    <div class="input-group">
-                        <label for="inputText">Enter Your Text:</label>
-                        <textarea id="inputText" placeholder="Type or paste your text here..." autofocus></textarea>
-                    </div>
-                    
-                    <h3>Select Case Type:</h3>
-                    <div class="case-options">
-                        <div class="case-option active" data-case="lower">
-                            <h4>lowercase</h4>
-                            <p>hello world</p>
-                        </div>
-                        <div class="case-option" data-case="upper">
-                            <h4>UPPERCASE</h4>
-                            <p>HELLO WORLD</p>
-                        </div>
-                        <div class="case-option" data-case="title">
-                            <h4>Title Case</h4>
-                            <p>Hello World</p>
-                        </div>
-                        <div class="case-option" data-case="sentence">
-                            <h4>Sentence case</h4>
-                            <p>Hello world</p>
-                        </div>
-                        <div class="case-option" data-case="capitalize">
-                            <h4>Capitalize Case</h4>
-                            <p>Hello World</p>
-                        </div>
-                        <div class="case-option" data-case="alternating">
-                            <h4>aLtErNaTiNg cAsE</h4>
-                            <p>hElLo wOrLd</p>
-                        </div>
-                    </div>
-                    
-                    <div class="actions">
-                        <button class="btn btn-primary" id="convertBtn">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
-                            </svg>
-                            Convert Text
-                        </button>
-                        <button class="btn btn-outline" id="clearBtn">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                            </svg>
-                            Clear All
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="output-section">
-                    <div class="output-group">
-                        <label for="outputText">Converted Text:</label>
-                        <textarea id="outputText" readonly></textarea>
-                    </div>
-                    
-                    <div class="actions">
-                        <button class="btn btn-success" id="copyBtn">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-                            </svg>
-                            Copy to Clipboard
-                        </button>
-                        <button class="btn btn-outline" id="downloadBtn">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-                            </svg>
-                            Download Text
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="faq-section">
-            <h2>Frequently Asked Questions</h2>
-            <div class="faq-grid">
-                <div class="faq-item">
-                    <h3>What is a text case converter?</h3>
-                    <p>A text case converter is a tool that transforms text from one case style to another. It can convert text to uppercase, lowercase, title case, sentence case, and more.</p>
-                </div>
-                
-                <div class="faq-item">
-                    <h3>Is this tool free to use?</h3>
-                    <p>Yes, our text case converter is completely free to use with no limitations. There is no registration required.</p>
-                </div>
-                
-                <div class="faq-item">
-                    <h3>How does the title case conversion work?</h3>
-                    <p>Title case capitalizes the first letter of each word, except for certain small words (like 'a', 'an', 'the') unless they are the first word of the title.</p>
-                </div>
-                
-                <div class="faq-item">
-                    <h3>Is the text I convert stored on your servers?</h3>
-                    <p>No, all conversions happen directly in your browser. We do not store or transmit any text you enter into this tool.</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="info-section">
-            <h2>Why Use a Text Case Converter?</h2>
-            <p>Text case conversion is essential for maintaining proper formatting in various contexts:</p>
-            
-            <div class="info-grid">
-                <div class="info-card">
-                    <h3>Academic Writing</h3>
-                    <p>Ensure your titles and headings follow proper title case rules</p>
-                </div>
-                
-                <div class="info-card">
-                    <h3>Programming</h3>
-                    <p>Convert variable names between different naming conventions</p>
-                </div>
-                
-                <div class="info-card">
-                    <h3>Professional Documents</h3>
-                    <p>Create consistent capitalization in reports and presentations</p>
-                </div>
-                
-                <div class="info-card">
-                    <h3>Social Media</h3>
-                    <p>Format your posts for maximum impact</p>
-                </div>
-            </div>
-        </div>
-        
-        <footer>
-            <p>&copy; 2025 HandyTools India. All rights reserved.</p>
-            <p>Free online tools for everyday tasks</p>
-            <a href="https://handytoolsindia.blogspot.com" class="tool-link">Visit our website for more tools</a>
-        </footer>
-    </div>
+  <div class="container">
+    <header>
+      <h1>Text Case Converter</h1>
+      <p class="subtitle">Change text case instantly • 100% Free • No Installation</p>
+    </header>
     
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const inputText = document.getElementById('inputText');
-            const outputText = document.getElementById('outputText');
-            const convertBtn = document.getElementById('convertBtn');
-            const copyBtn = document.getElementById('copyBtn');
-            const clearBtn = document.getElementById('clearBtn');
-            const downloadBtn = document.getElementById('downloadBtn');
-            const caseOptions = document.querySelectorAll('.case-option');
-            
-            let currentCase = 'lower';
-            
-            // Set active case option
-            caseOptions.forEach(option => {
-                option.addEventListener('click', function() {
-                    caseOptions.forEach(opt => opt.classList.remove('active'));
-                    this.classList.add('active');
-                    currentCase = this.dataset.case;
-                    convertText();
-                });
-            });
-            
-            // Convert text
-            function convertText() {
-                const text = inputText.value;
-                if (!text) {
-                    outputText.value = '';
-                    return;
-                }
-                
-                switch(currentCase) {
-                    case 'lower':
-                        outputText.value = text.toLowerCase();
-                        break;
-                    case 'upper':
-                        outputText.value = text.toUpperCase();
-                        break;
-                    case 'title':
-                        outputText.value = toTitleCase(text);
-                        break;
-                    case 'sentence':
-                        outputText.value = toSentenceCase(text);
-                        break;
-                    case 'capitalize':
-                        outputText.value = toCapitalizeCase(text);
-                        break;
-                    case 'alternating':
-                        outputText.value = toAlternatingCase(text);
-                        break;
-                    default:
-                        outputText.value = text;
-                }
-            }
-            
-            // Title Case Conversion
-            function toTitleCase(str) {
-                return str.toLowerCase().replace(/\b\w+/g, function(word) {
-                    // Skip small words unless they are the first word
-                    const smallWords = ['a', 'an', 'the', 'and', 'but', 'or', 'for', 'nor', 'as', 'at', 
-                                       'by', 'for', 'from', 'in', 'into', 'near', 'of', 'on', 'onto', 'to', 'with'];
-                    return smallWords.includes(word) ? word : word.charAt(0).toUpperCase() + word.substr(1);
-                }).replace(/^\w|\.\s+\w/g, function(char) {
-                    return char.toUpperCase();
-                });
-            }
-            
-            // Sentence Case Conversion
-            function toSentenceCase(str) {
-                return str.toLowerCase().replace(/(^\s*\w|[\.\?\!]\s+\w)/g, function(c) {
-                    return c.toUpperCase();
-                });
-            }
-            
-            // Capitalize Each Word
-            function toCapitalizeCase(str) {
-                return str.toLowerCase().replace(/\b\w/g, function(char) {
-                    return char.toUpperCase();
-                });
-            }
-            
-            // Alternating Case
-            function toAlternatingCase(str) {
-                let count = 0;
-                return str.split('').map(char => {
-                    if (/[a-zA-Z]/.test(char)) {
-                        return count++ % 2 === 0 ? char.toLowerCase() : char.toUpperCase();
-                    }
-                    return char;
-                }).join('');
-            }
-            
-            // Event listeners
-            convertBtn.addEventListener('click', convertText);
-            inputText.addEventListener('input', convertText);
-            
-            copyBtn.addEventListener('click', function() {
-                outputText.select();
-                document.execCommand('copy');
-                
-                // Show visual feedback
-                const originalText = copyBtn.innerHTML;
-                copyBtn.innerHTML = '<svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/></svg> Copied!';
-                
-                setTimeout(() => {
-                    copyBtn.innerHTML = originalText;
-                }, 2000);
-            });
-            
-            clearBtn.addEventListener('click', function() {
-                inputText.value = '';
-                outputText.value = '';
-                inputText.focus();
-            });
-            
-            downloadBtn.addEventListener('click', function() {
-                const text = outputText.value;
-                if (!text) return;
-                
-                const blob = new Blob([text], { type: 'text/plain' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'converted-text.txt';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            });
-            
-            // Initialize with default conversion
-            convertText();
-        });
-    </script>
+    <main>
+      <div class="input-group">
+        <textarea id="inputText" placeholder="Paste your text here..."></textarea>
+      </div>
+      
+      <div class="controls">
+        <button id="upperBtn">UPPERCASE</button>
+        <button id="lowerBtn">lowercase</button>
+        <button id="titleBtn">Title Case</button>
+        <button id="sentenceBtn">Sentence case</button>
+      </div>
+      
+      <div class="output-group">
+        <textarea id="outputText" placeholder="Converted text appears here..." readonly></textarea>
+        <button class="copy-btn" id="copyBtn">Copy Text</button>
+      </div>
+    </main>
+    
+    <footer>
+      <p>HandyToolsIndia • Works on all devices • No signup required</p>
+    </footer>
+  </div>
+
+  <script>
+    // DOM Elements
+    const inputText = document.getElementById('inputText');
+    const outputText = document.getElementById('outputText');
+    const copyBtn = document.getElementById('copyBtn');
+    
+    // Case Conversion Functions
+    document.getElementById('upperBtn').addEventListener('click', () => {
+      outputText.value = inputText.value.toUpperCase();
+    });
+    
+    document.getElementById('lowerBtn').addEventListener('click', () => {
+      outputText.value = inputText.value.toLowerCase();
+    });
+    
+    document.getElementById('titleBtn').addEventListener('click', () => {
+      outputText.value = inputText.value.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
+    });
+    
+    document.getElementById('sentenceBtn').addEventListener('click', () => {
+      outputText.value = inputText.value.toLowerCase().replace(/(^\s*\w|[.!?]\s+\w)/g, match => match.toUpperCase());
+    });
+    
+    // Copy to Clipboard
+    copyBtn.addEventListener('click', () => {
+      outputText.select();
+      document.execCommand('copy');
+      copyBtn.textContent = 'Copied!';
+      setTimeout(() => copyBtn.textContent = 'Copy Text', 2000);
+    });
+  </script>
 </body>
 </html>
