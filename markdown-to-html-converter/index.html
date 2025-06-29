@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Markdown to HTML Converter | HandyToolsIndia</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Markdown to HTML Converter</h1>
+            <p>Convert Markdown to clean HTML instantly - No installation required!</p>
+        </header>
+        
+        <div class="editor-container">
+            <div class="input-section">
+                <h2>Markdown Input</h2>
+                <textarea id="markdown-input" placeholder="Enter your Markdown here... 
+Example: 
+# Heading
+**Bold text**
+- List item" autofspellcheck="false"></textarea>
+            </div>
+            
+            <div class="output-section">
+                <div class="output-header">
+                    <h2>HTML Output</h2>
+                    <button id="copy-btn">Copy HTML</button>
+                </div>
+                <pre id="html-output"></pre>
+            </div>
+        </div>
+        
+        <div class="features">
+            <h3>Key Features:</h3>
+            <ul>
+                <li>100% Client-side processing - No data leaves your browser</li>
+                <li>Supports all Markdown features: headers, lists, code blocks</li>
+                <li>Mobile-optimized interface</li>
+                <li>Real-time conversion</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
